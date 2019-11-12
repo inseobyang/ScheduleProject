@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>My BCIT Project</title>
+    <meta name="comp1930 boilerplate code" content="my bcit project">
+    <meta name="author" content="BCIT">
+
+    <!------------------------------------------------------------------------------>
+    <!-- Bootstrap for Mobile-first                                               -->
+    <!------------------------------------------------------------------------------>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <!------------------------------------------------------------------------------>
+    <!-- Add Firebase products that you want to use                               -->
+    <!------------------------------------------------------------------------------>
+    <script src="https://www.gstatic.com/firebasejs/7.2.2/firebase-app.js"></script>
+  
+    <script src="https://www.gstatic.com/firebasejs/7.2.2/firebase-auth.js"></script>
+  
+    <script src="https://www.gstatic.com/firebasejs/7.2.2/firebase-firestore.js"></script>
+  
+    <script src="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.js"></script>
+  
+    <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css" />
+
+    <!------------------------------------------------------------------------------>
+    <!-- Optional styles and scripts of your own                                  -->
+    <!------------------------------------------------------------------------------>
+    <link rel="stylesheet" href="styles/style.css">
+    <script src="scripts/script.js"></script>
+
+  <script>
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+      apiKey: "AIzaSyD2QaXTqDNi9hBP5gMK9z_19YVKoBU9NeM",
+      authDomain: "comp1930-schedule-project.firebaseapp.com",
+      databaseURL: "https://comp1930-schedule-project.firebaseio.com",
+      projectId: "comp1930-schedule-project",
+      storageBucket: "comp1930-schedule-project.appspot.com",
+      messagingSenderId: "610999211117",
+      appId: "1:610999211117:web:c490ce02c2b24418b09b64"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    
+    //*****CARLY TOLD US TO ADD POINTER TO DATABASE **************
+    var db = firebase.firestore();
+    //***********************************************
+  </script>
+</head>
+
+<body>
+  <h1> Hello CST its Thursday </h1>
+  <h1> Welcome to John's App </h1>
+  <h2> let's read from the database: <span id="stuff"> stuff </span> </h2>
+  
+  <script>
+  
+  var citiesRef = db.collection("cities");
+    
+    
+  citiesRef.doc("SF").set({
+      name: "San Francisco", state: "CA", country: "USA",
+      capital: false, population: 860000,
+      regions: ["west_coast", "norcal"] });
+  citiesRef.doc("LA").set({
+      name: "Los Angeles", state: "CA", country: "USA",
+      capital: false, population: 3900000,
+      regions: ["west_coast", "socal"] });
+  citiesRef.doc("DC").set({
+      name: "Washington, D.C.", state: null, country: "USA",
+      capital: true, population: 680000,
+      regions: ["east_coast"] });
+  citiesRef.doc("TOK").set({
+      name: "Tokyo", state: null, country: "Japan",
+      capital: true, population: 9000000,
+      regions: ["kanto", "honshu"] });
+  citiesRef.doc("BJ").set({
+      name: "Beijing", state: null, country: "China",
+      capital: true, population: 21500000,
+      regions: ["jingjinji", "hebei"] });
+    
+  </script>
+  
+  
+  <script>
+  //api all to firebase database, finds reference into a bit of data, gets data, and sticks into DOM and display it
+  //onSnapshot is also listener; will update when data is updated
+  //handler goes in round brackets
+  db.collection("Quotes").doc("789").onSnapshot(function(snap){
+    console.log("current data is ...", snap.data());
+    document.getElementById("stuff").innerHTML= snap.data().message;
+  });
+  
+  //first part of script is createUser();
+  //showName();
+    
+  //all scripts are in scripts folder, holding js
+    
+    
+  </script>
+  
+  
+</body>
+
+</html>
