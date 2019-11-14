@@ -7,20 +7,26 @@
     </head>
     <body>
         
-        <textarea id = "text" rows="25" cols="100">asklfkagsjljklgdsjkl</textarea>
+        <textarea id = "text" rows="25" cols="100"></textarea>
         <img id = "submit" src = "menu.png" alt = "sup">
         <p id = "johnisdumb">hiihihiih</p>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <script>
             $(document).ready(function() {
-                
-                
-                
                     $("#submit").click(function(event){
                     var usertext = document.getElementById("text").value;
                     document.getElementById("johnisdumb").innerHTML =  usertext;
                     console.log("Usertext " + usertext);
-                                                        });
+                    var textwords = usertext.split(" ");
+                    var textlength = textwords.length;
+                    console.log(textlength);
+                    console.log(textwords);
+                    textwords = textwords.filter(function(str) {
+                    return /\S/.test(str);
+                    });
+                    console.log(textwords);
+                    
+                                                        })
             });
         </script>
     </body>
