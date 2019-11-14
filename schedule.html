@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link href='https://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet'>
+    <title> Home page </title>
+    <meta charset="utf-8"/>
+    
+    <!------------------------------------------------------------------------------>
+    <!-- Bootstrap for Mobile-first                                               -->
+    <!------------------------------------------------------------------------------>
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script> -->
+
+    <!------------------------------------------------------------------------------>
+    <!-- Add Firebase products that you want to use                               -->
+    <!------------------------------------------------------------------------------>
+    <script src="https://www.gstatic.com/firebasejs/7.2.2/firebase-app.js"></script>
+  
+    <script src="https://www.gstatic.com/firebasejs/7.2.2/firebase-auth.js"></script>
+  
+    <script src="https://www.gstatic.com/firebasejs/7.2.2/firebase-firestore.js"></script>
+  
+    <script src="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.js"></script>
+  
+    <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css" />
+
+    <!------------------------------------------------------------------------------>
+    <!-- Optional styles and scripts of your own                                  -->
+    <!------------------------------------------------------------------------------>
+    <!-- <link rel="stylesheet" href="styles/style.css">
+    <script src="scripts/script.js"></script> -->
+
+  <script>
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+      apiKey: "AIzaSyD2QaXTqDNi9hBP5gMK9z_19YVKoBU9NeM",
+      authDomain: "comp1930-schedule-project.firebaseapp.com",
+      databaseURL: "https://comp1930-schedule-project.firebaseio.com",
+      projectId: "comp1930-schedule-project",
+      storageBucket: "comp1930-schedule-project.appspot.com",
+      messagingSenderId: "610999211117",
+      appId: "1:610999211117:web:c490ce02c2b24418b09b64"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    
+    //*****CARLY TOLD US TO ADD POINTER TO DATABASE **************
+    var db = firebase.firestore();
+    //***********************************************
+  </script>
+    
+    <style>
+      
+      html, body {
+        margin: 0;
+        padding: 0;
+        font-family: "Oxygen";
+      }
+      
+      .grid-container .nav {
+        grid-area: nav;
+        border-bottom: 1px solid darkblue;
+        display: inline-grid;
+        grid-template-columns: 1fr 4fr 1fr 1fr 1fr;
+        grid-template-areas: 
+          "logo search home profile options";
+        background-color: white;
+        color: #071350;
+        text-align: center;
+        
+      }
+      
+      #logo {
+        width: 48px;
+        height: 48px;
+        
+      }
+      
+      .logo { 
+        grid-area: logo;
+      }
+      
+      .search {
+        grid-area: search;
+      }
+      
+      .home {
+        grid-area: home;
+      }
+      
+      .profile {
+        grid-area: profile;
+      }
+      
+      .options {
+        grid-area: options;
+      }
+      
+      /*************************change tag to match content******/
+
+      .grid-container .header {
+        grid-area: header;
+        background-color: white;
+        color: black;
+        font-size: 18pt;
+        padding-left: 20px;
+        letter-spacing: 1px;  
+        text-align: center;
+      }
+      
+      .grid-container .schedule {
+        grid-area: schedule;    
+        margin-left: 25px;
+        margin-right: 25px;
+        box-shadow: 0px 0px 10px 0px inset black;
+        background-color: #f2f2f2;
+        text-align: center;
+      }
+      
+      .grid-container .footer {
+        grid-area: footer;
+        text-align: center;
+        background-color: white;
+      }
+      
+      .grid-container {
+        display:inline-grid;
+        vertical-align: middle;
+        margin-top: 30px;
+        height: 100vh;
+        border-left: 1px solid darkblue;
+        border-right: 1px solid darkblue;
+        width: 100%;
+        grid-template-columns: 1fr;
+        grid-template-rows: 5% 10% 75% 10%;
+        grid-template-areas:
+          "nav"
+          "header"
+          "schedule"
+          "footer"
+      }
+      
+    </style>
+  </head>
+  <body>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <div class="grid-container">
+      <div class="nav">
+        <div class="logo"><img id="logo" src="ScheduleLogo.svg"></div>
+        <div class="search"><p> | Home | </p></div>
+        <div class="home"><p> | Profile | </p></div>
+        <div class="profile"><p> | Connections | </p></div>
+        <div class="options"><p> | Options | </p></div>
+      </div>
+      
+      <div class="header">
+      </div>
+      
+      <script>
+        //******************************* SCRIPT FOR ADDING NAME WOOOOOOOOOO *********************************
+        $(document).ready(function() {
+          var firstName = "John";
+          var lastName = "Yang";
+          $(".header").append("<p>" + firstName + " " + lastName + "'s Class Schedule: </p>");
+        });
+      </script>
+      
+      <div class="schedule">
+        <p> Hello! <span id="stuff"></span> </p>
+      </div>
+      
+      <div class="footer">
+      </div>
+    </div>
+    <script>
+      
+      //******************************** PRINTS DATE *****************************************************
+      $(document).ready(function() {
+        var d = new Date();
+        yr = d.getFullYear();
+        month = d.getMonth()+1;
+        if (month == 1) {
+          month = "January";
+        }
+        else if (month == 2) {
+          month = "February";
+        }
+        else if (month == 3) {
+          month = "March";
+        }
+        else if (month == 4) {
+          month = "April";
+        }
+        else if (month == 5) {
+          month = "May";
+        }
+        else if (month == 6) {
+          month = "June";
+        }
+        else if (month == 7) {
+          month = "July";
+        }
+        else if (month == 8) {
+          month = "August";
+        }
+        else if (month == 9) {
+          month = "September";
+        }
+        else if (month == 10) {
+          month = "October";
+        }
+        else if (month == 11) {
+          month = "November";
+        }
+        else if (month == 12) {
+          month = "December";
+        }
+        day = d.getDate();
+        var dateToday = "<p id='date'> Week of " + month + " " + day + ", " + yr + "</p>";
+        $(".header").append(dateToday);
+        
+        $("#logo").click(function(){
+          if (day + 7 < 31) {
+            day = day + 7;
+            $('#date').remove();
+            dateToday = "<p id='date'> Week of " + month + " " + day + ", " + yr + "</p>";
+            $(".header").append(dateToday);
+          }
+          else {
+            month = "December";
+            day = day - 30 + 7;
+            $('#date').remove();
+            dateToday = "<p id='date'> Week of " + month + " " + day + ", " + yr + "</p>";
+            $(".header").append(dateToday);
+          }
+        });
+        
+        });
+      //*************************************************************************************************
+    </script>
+    
+    
+    <script>
+      //api all to firebase database, finds reference into a bit of data, gets data, and sticks into DOM and display it
+      //onSnapshot is also listener; will update when data is updated
+      //handler goes in round brackets
+      db.collection("Users").doc("Courses").collection("Current Courses").doc("Course 1").onSnapshot(function(snap){
+        console.log("current data is ...", snap.data());
+        document.getElementById("stuff").innerHTML= snap.data().CourseBuilding;
+      });
+
+      //first part of script is createUser();
+      //showName();
+
+      //all scripts are in scripts folder, holding js
+    </script>
+    
+  </body>
+
+
+</html>
