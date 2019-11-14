@@ -53,26 +53,11 @@
     </style>
   </head>
   <body>
-    <div id="test">hello</div>
-    
-    <form id="form">
-        <!-- *******************USER INPUT TEXT FIELD******** -->
-        <input id="userInput" style=position:absolute;top:80%;left:5%;width:40%; type="text">
-      
-        <!-- *******************USER INPUT BUTTON******** -->
-        <input style=position:absolute;top:50%;left:5%;width:40%; type="button" value="ADD" click="name()">
-    </form>
+
     <h1> BCIT Schedule Project </h1>
     <div id="firebaseui-auth-container"></div>
     <div id="loader">Loading...</div>
-      
-    <script>
-        function name() {
-          var x = document.getElementById("test")
-          x.style.color = "red";
-          x.innerHTML = document.getElementById("userInput");
-          }
-    </script>
+
       
     <script>
       var ui = new firebaseui.auth.AuthUI(firebase.auth());

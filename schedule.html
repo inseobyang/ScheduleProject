@@ -280,7 +280,7 @@
       });
       
       $("#practiceSubmit").click(function() {
-        db.collection("Users").doc("Courses").collection("Current Courses").doc("Course 1").set({
+        db.collection("Users").doc("Courses").set({
           CourseBuilding: "SE12",
           courseCode: "1712",
           courseName: "COMP"
