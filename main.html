@@ -94,16 +94,17 @@
   //api all to firebase database, finds reference into a bit of data, gets data, and sticks into DOM and display it
   //onSnapshot is also listener; will update when data is updated
   //handler goes in round brackets
-  db.collection("Quotes").doc("789").onSnapshot(function(snap){
+  db.collection("Users").doc("Courses").collection("Current Courses").doc("Course 1").onSnapshot(function(snap){
     console.log("current data is ...", snap.data());
-    document.getElementById("stuff").innerHTML= snap.data().message;
+    document.getElementById("stuff").innerHTML= snap.data().CourseBuilding;
   });
   
   //first part of script is createUser();
   //showName();
     
   //all scripts are in scripts folder, holding js
-    
+    // read .get() or .onSnapshot()
+    // writing .set() or .update() or .add()
     
   </script>
   
