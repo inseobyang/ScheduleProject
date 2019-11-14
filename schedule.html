@@ -121,6 +121,8 @@
         text-align: center;
         grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr ;
         grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr ;
+        text-align: left;
+
       }
         .schedulebox{
             background-color: white;
@@ -352,6 +354,19 @@
           
         
           
+        <p> &nbsp; Hello! <span id="stuff"></span> </p>
+        
+        <form>
+          &nbsp; Course Name: &nbsp; &nbsp; &nbsp;<input type="text" name="courseName"><br><br>
+          &nbsp; Course Code: &nbsp; &nbsp; &nbsp; &nbsp;<input type="text" name="courseCode"><br><br>
+          &nbsp; Course Number: &nbsp; <input type="text" name="courseNumber"><br><br>
+          &nbsp; Course Building: &nbsp; <input type="text" name="courseBuilding"><br><br>
+          &nbsp; Course Room: &nbsp; &nbsp; &nbsp;<input type="text" name="courseRoom"><br><br>
+          &nbsp; Course Start: <input type="text" name="courseStart"><br><br>
+          &nbsp; Course End: <input type="text" name="courseEnd"><br><br>
+          &nbsp; <p id="practiceSubmit"> Submit </p>
+        </form>
+
       </div>
       
       <div class="footer">
@@ -442,6 +457,25 @@
       //showName();
 
       //all scripts are in scripts folder, holding js
+    </script>
+    
+    <script>
+    // read .get() or .onSnapshot()
+    // writing .set() or .update() or .add()
+      $("#practiceSubmit").click(function() {
+        db.collection("Users").doc("Courses").collection("Current Courses").doc("Course 1").set({
+          CourseBuilding: "SE12"
+        })
+      });
+      
+      $("#practiceSubmit").click(function() {
+        db.collection("Users").doc("Courses").collection("Current Courses").doc("Course 1").set({
+          CourseBuilding: "SE12",
+          courseCode: "1712",
+          courseName: "COMP"
+        })
+      });
+    
     </script>
     
   </body>
