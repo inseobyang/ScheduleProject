@@ -357,14 +357,14 @@
         <p> &nbsp; Hello! <span id="stuff"></span> </p>
         
         <form>
-          &nbsp; Course Name: &nbsp; &nbsp; &nbsp;<input type="text" name="courseName"><br><br>
-          &nbsp; Course Code: &nbsp; &nbsp; &nbsp; &nbsp;<input type="text" name="courseCode"><br><br>
-          &nbsp; Course Number: &nbsp; <input type="text" name="courseNumber"><br><br>
-          &nbsp; Course Building: &nbsp; <input type="text" name="courseBuilding"><br><br>
-          &nbsp; Course Room: &nbsp; &nbsp; &nbsp;<input type="text" name="courseRoom"><br><br>
-          &nbsp; Course Start: <input type="text" name="courseStart"><br><br>
-          &nbsp; Course End: <input type="text" name="courseEnd"><br><br>
-          &nbsp; <p id="practiceSubmit"> Submit </p>
+          &nbsp; Course Name: &nbsp; &nbsp; &nbsp;<input type="text" id="courseName"><br><br>
+          &nbsp; Course Code: &nbsp; &nbsp; &nbsp; &nbsp;<input type="text" id="courseCode"><br><br>
+          &nbsp; Course Number: &nbsp; <input type="text" id="courseNumber"><br><br>
+          &nbsp; Course Building: &nbsp; <input type="text" id="courseBuilding"><br><br>
+          &nbsp; Course Room: &nbsp; &nbsp; &nbsp;<input type="text" id="courseRoom"><br><br>
+          &nbsp; Course Start: <input type="text" id="courseStart"><br><br>
+          &nbsp; Course End: <input type="text" id="courseEnd"><br><br>
+          &nbsp; <input type ="submit" value="Submit" id="practiceSubmit">
         </form>
 
       </div>
@@ -436,10 +436,14 @@
         });
         
         });
+        
+        
       //*************************************************************************************************
     </script>
     
-    
+      
+      
+<!--
     <script>
       //api all to firebase database, finds reference into a bit of data, gets data, and sticks into DOM and display it
       //onSnapshot is also listener; will update when data is updated
@@ -477,7 +481,24 @@
       });
     
     </script>
-    
+!-->
+    <script src ="scripts/add-user.js"></script>
+    <script src ="scripts/add-schedule.js"></script>
+      <script>
+          createUser();
+          
+      </script>
+      <script>
+          $("#practiceSubmit").click(function(event){
+              event.preventDefault();
+              var cName = document.getElementById("courseName").value;
+              var cCode = document.getElementById("courseCode").value;
+              var cNum = document.getElementById("courseNumber").value;
+              var cBuilding = document.getElementById("courseBuilding").value;
+              var cRoom = document.getElementById("courseRoom").value;
+              addSchedule(cName, cBuilding, cCode, cNum, cRoom);;
+          })
+      </script>
   </body>
 
 
