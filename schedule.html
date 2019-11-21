@@ -140,12 +140,13 @@
       <div class="schedule">
         <ul id="myCourseList"></ul>
         <form id="course-form">
-          <input type="text" name="newCode" placeholder="Course code..."><br>
-          <input type="text" name="newNumber" placeholder="Course number..."><br>
-          <input type="text" name="newType" placeholder="Course type..."><br>
-          <input type="text" name="newBuilding" placeholder="Course building..."><br>
-          <input type="text" name="newRoom" placeholder="Course room..."><br>
+          <input type="text" id = "cCode" name="newCode" placeholder="Course code..."><br>
+          <input type="text" id = "cNum" name="newNumber" placeholder="Course number..."><br>
+          <input type="text" id = "cType" name="newType" placeholder="Course type..."><br>
+          <input type="text" id = "cBuilding" name="newBuilding" placeholder="Course building..."><br>
+          <input type="text" id = "cRoom" name="newRoom" placeholder="Course room..."><br>
           <button> Add course to schedule </button>
+            <button id = "submit">Submit</button>
         </form>
       </div>
 
@@ -378,6 +379,27 @@
               $(".header").append(dateToday);
             }
           });
+        });
+    </script>
+      
+    <script src="scripts/add-user.js"></script>
+    <script src="scripts/add-schedule.js"></script>
+    <script>
+        //adding user to database
+        createUser();
+        //adding scheudle to database
+      </script>
+    <script>
+        $(document).ready(function(){
+            $("#submit").click(function(event){
+            event.preventDefault();
+            var cType = document.getElementById("cType").value;
+            var cCode = document.getElementById("cCode").value;
+            var cNum = document.getElementById("cNum").value;
+            var cBuilding = document.getElementById("cBuilding").value;
+            var cRoom = document.getElementById("cRoom").value;
+            addSchedule(cType, cBuilding, cCode, cNum, cRoom);
+        });
         });
     </script>
     
