@@ -194,10 +194,24 @@
       }
       
       //get data
-      db.collection("newCourses").get().then((snapshot) => {
+      /*db.collection("newCourses").get().then((snapshot) => {
         console.log(snapshot.docs.forEach(doc => {
           renderCourses(doc);
         }));
+      })*/
+      
+      
+      //listening
+      db.collection("newCourses").onSnapshot(snapshot => {
+        let changes = snapshot.docChanges(); //assign all changes to variable changes
+        changes.forEach(change => {
+          if(change.type == 'added') {
+            renderCourses(change.doc);
+          } else if (change.type == 'removed') {
+            let li = courseList.querySelector('[data-id=' + change.doc.id + ']');
+            courseList.removeChild(li);
+          }
+        })
       })
       
       //COLOR LABS HOT PINK -- rework later because I don't think this part applies yet; going to try function instead first
