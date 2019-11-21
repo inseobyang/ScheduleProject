@@ -89,6 +89,7 @@
         text-align: center;
       }
       .grid-container .schedule {
+        font-size: 14pt;
         grid-area: schedule;
         margin-left: 25px;
         margin-right: 25px;
@@ -112,7 +113,7 @@
         border-right: 1px solid darkblue;
         width: 100%;
         grid-template-columns: 1fr;
-        grid-template-rows: 5% 10% 75% 10%;
+        grid-template-rows: 10% 20% 75% 10%;
         grid-template-areas:
           "nav"
           "header"
@@ -127,8 +128,8 @@
     <div class="grid-container">    
       <div class="nav">
         <div class="logo"><img id="logo" src="ScheduleLogo.svg"></div>
-        <div class="search" id="home-button"><p> | Home | </p></div>
-        <div class="home" id="profile-button"><p> | Profile | </p></div>
+        <div class="search" id="home-button"><p> | LABS | </p></div>
+        <div class="home" id="profile-button"><p> | LECTURES | </p></div>
         <div class="profile"><p> | Connections | </p></div>
         <div class="options"><p> | Options | </p></div>
       </div>
@@ -154,10 +155,11 @@
     </div>
     
     <script>
-      const form = document.querySelector('#course-form');
       
+      const form = document.querySelector('#course-form');
       const courseList = document.querySelector('#myCourseList');
       
+      //creates elements for display
       function renderCourses(doc) {
         let li = document.createElement('li');
         let code = document.createElement('span');
@@ -167,6 +169,7 @@
         let room = document.createElement('span');
         let closeButton = document.createElement('span');
         
+        //reads course data from database and assigns to created elements
         li.setAttribute('data-id', doc.id);
         code.textContent = doc.data().courseCode + " ";
         number.textContent = doc.data().courseNumber + " ";
@@ -175,6 +178,7 @@
         room.textContent = doc.data().roomNumber + " ";
         closeButton.textContent = "[X]";
         
+        //append each element to list element
         li.appendChild(code);
         li.appendChild(number);
         li.appendChild(courseType);
@@ -182,6 +186,7 @@
         li.appendChild(room);
         li.appendChild(closeButton);
         
+        //append list element to list
         courseList.appendChild(li);
         
         //remove data
@@ -248,18 +253,12 @@
           }
         })
       })
-      
-      //COLOR LABS HOT PINK -- rework later because I don't think this part applies yet; going to try function instead first
-      
-      /*db.collection("newCourses").where('courseType', '==', 'LAB').get().then((snapshot) => {
-        snapshot.docs.forEach(doc)
-      });*/
-      
-      
-      //submit data
+
+      //Event handler for submit form button
       form.addEventListener('submit', (e) => {
         //need to prevent default button
         e.preventDefault();
+        //add fields for courseCode, Number, Type, Building, and room Number
         db.collection('newCourses').add({
           courseCode: form.newCode.value,
           courseNumber: form.newNumber.value,
@@ -267,6 +266,7 @@
           building: form.newBuilding.value,
           roomNumber: form.newRoom.value
         });
+        //clears form values
         form.newCode.value = '';
         form.newNumber.value = '';
         form.newType.value = '';
