@@ -127,8 +127,8 @@
     <div class="grid-container">    
       <div class="nav">
         <div class="logo"><img id="logo" src="ScheduleLogo.svg"></div>
-        <div class="search"><p> | Home | </p></div>
-        <div class="home"><p> | Profile | </p></div>
+        <div class="search" id="home-button"><p> | Home | </p></div>
+        <div class="home" id="profile-button"><p> | Profile | </p></div>
         <div class="profile"><p> | Connections | </p></div>
         <div class="options"><p> | Options | </p></div>
       </div>
@@ -191,6 +191,41 @@
           let id = e.target.parentElement.getAttribute('data-id');
           db.collection("newCourses").doc(id).delete();
         });
+        
+        let homeButton = document.querySelector('#home-button');
+        let profileButton = document.querySelector('#profile-button');
+        
+        
+        //Selects LECTURES
+        profileButton.addEventListener('click', (e) => {
+          e.stopPropagation;
+          console.log("profile hit");
+          var listItems = $("#myCourseList li span");
+          for(let lis of listItems) {
+            //console.log(lis.innerHTML);
+            if (lis.innerHTML == "LEC ") {
+              //console.log(lis.parentElement);
+              $(lis.parentElement).css({color: "maroon"});
+            } else if (lis.innerHTML == "LAB ") {
+              $(lis.parentElement).css({color: "grey"});
+            }
+          }
+        })
+        
+        //Selects LABS
+        homeButton.addEventListener('click', (e) => {
+          e.stopPropagation;
+          var listItems = $("#myCourseList li span");
+          for(let lis of listItems) {
+            //console.log(lis.innerHTML);
+            if (lis.innerHTML == "LAB ") {
+              //console.log(lis.parentElement);
+              $(lis.parentElement).css({color: "maroon"});
+            } else if (lis.innerHTML == "LEC ") {
+              $(lis.parentElement).css({color: "grey"});
+            }
+          }
+        })
       }
       
       //get data
