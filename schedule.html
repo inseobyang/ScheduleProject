@@ -205,9 +205,9 @@
             //console.log(lis.innerHTML);
             if (lis.innerHTML == "LEC ") {
               //console.log(lis.parentElement);
-              $(lis.parentElement).css({color: "maroon"});
+              $(lis.parentElement).css({color: "maroon", "font-weight": "bold"});
             } else if (lis.innerHTML == "LAB ") {
-              $(lis.parentElement).css({color: "grey"});
+              $(lis.parentElement).css({color: "grey", "font-weight": "normal"});
             }
           }
         })
@@ -220,9 +220,9 @@
             //console.log(lis.innerHTML);
             if (lis.innerHTML == "LAB ") {
               //console.log(lis.parentElement);
-              $(lis.parentElement).css({color: "maroon"});
+              $(lis.parentElement).css({"color": "maroon", "font-weight": "bold"});
             } else if (lis.innerHTML == "LEC ") {
-              $(lis.parentElement).css({color: "grey"});
+              $(lis.parentElement).css({"color": "grey", "font-weight": "normal"});
             }
           }
         })
