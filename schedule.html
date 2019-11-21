@@ -124,11 +124,11 @@
   </head>
   
   <body>
-    <div class="grid-container">
+    <div class="grid-container">    
       <div class="nav">
         <div class="logo"><img id="logo" src="ScheduleLogo.svg"></div>
-        <div class="search"><p> | Home | </p></div>
-        <div class="home"><p> | Profile | </p></div>
+        <div class="search" id="home-button"><p> | Home | </p></div>
+        <div class="home" id="profile-button"><p> | Profile | </p></div>
         <div class="profile"><p> | Connections | </p></div>
         <div class="options"><p> | Options | </p></div>
       </div>
@@ -137,57 +137,6 @@
       </div>
       
       <div class="schedule">
-
-        <p> Hello! <span id="stuff"></span> </p>
-        <p>Soft boy <span id="john"></span></p>
-        <div class="schedulebox" id = "r1c1"></div>
-        <div class="schedulebox" id = "r1c2">Monday</div> 
-        <div class="schedulebox" id = "r1c3">Tuesday</div> 
-        <div class="schedulebox" id = "r1c4">Wednesday</div> 
-        <div class="schedulebox" id = "r1c5">Thursday</div> 
-        <div class="schedulebox" id = "r1c6">Friday</div> 
-        <div class="schedulebox" id = "r1c7">Saturday</div> 
-        <div class="schedulebox" id = "r1c8">Sunday</div> 
-          <div class="schedulebox" id = "r2c1">800</div> 
-          <div class="schedulebox" id = "r3c1">830</div> 
-          <div class="schedulebox" id = "r4c1">900</div> 
-          <div class="schedulebox" id = "r5c1">930</div> 
-          <div class="schedulebox" id = "r6c1">1000</div> 
-          <div class="schedulebox" id = "r7c1">1030</div> 
-          <div class="schedulebox" id = "r8c1">1100</div> 
-          <div class="schedulebox" id = "r9c1">1130</div> 
-          <div class="schedulebox" id = "r10c1">1200</div> 
-          <div class="schedulebox" id = "r11c1">1230</div> 
-          <div class="schedulebox" id = "r12c1">1300</div> 
-          <div class="schedulebox" id = "r13c1">1330</div> 
-          <div class="schedulebox" id = "r14c1">1400</div> 
-          <div class="schedulebox" id = "r15c1">1430</div> 
-          <div class="schedulebox" id = "r16c1">1500</div> 
-          <div class="schedulebox" id = "r17c1">1530</div> 
-          <div class="schedulebox" id = "r18c1">1600</div> 
-          <div class="schedulebox" id = "r19c1">1630</div> 
-          <div class="schedulebox" id = "r20c1">1700</div> 
-          <div class="schedulebox" id = "r21c1">1730</div> 
-          <div class="schedulebox" id = "r22c1">1800</div> 
-          <div class="schedulebox" id = "r23c1">1830</div> 
-          <div class="schedulebox" id = "r24c1">1900</div> 
-          <div class="schedulebox" id = "r25c1">1930</div> 
-          <div class="schedulebox" id = "r26c1">2000</div> 
-          
-          
-        
-          
-        <p> &nbsp; Hello! <span id="stuff"></span> </p>
-        
-        <form>
-          &nbsp; Course Name: &nbsp; &nbsp; &nbsp;<input type="text" id="courseName"><br><br>
-          &nbsp; Course Code: &nbsp; &nbsp; &nbsp; &nbsp;<input type="text" id="courseCode"><br><br>
-          &nbsp; Course Number: &nbsp; <input type="text" id="courseNumber"><br><br>
-          &nbsp; Course Building: &nbsp; <input type="text" id="courseBuilding"><br><br>
-          &nbsp; Course Room: &nbsp; &nbsp; &nbsp;<input type="text" id="courseRoom"><br><br>
-          &nbsp; Course Start: <input type="text" id="courseStart"><br><br>
-          &nbsp; Course End: <input type="text" id="courseEnd"><br><br>
-          &nbsp; <input type ="submit" value="Submit" id="practiceSubmit">
         <ul id="myCourseList"></ul>
         <form id="course-form">
           <input type="text" name="newCode" placeholder="Course code..."><br>
@@ -196,7 +145,6 @@
           <input type="text" name="newBuilding" placeholder="Course building..."><br>
           <input type="text" name="newRoom" placeholder="Course room..."><br>
           <button> Add course to schedule </button>
-
         </form>
       </div>
 
@@ -243,6 +191,41 @@
           let id = e.target.parentElement.getAttribute('data-id');
           db.collection("newCourses").doc(id).delete();
         });
+        
+        let homeButton = document.querySelector('#home-button');
+        let profileButton = document.querySelector('#profile-button');
+        
+        
+        //Selects LECTURES
+        profileButton.addEventListener('click', (e) => {
+          e.stopPropagation;
+          console.log("profile hit");
+          var listItems = $("#myCourseList li span");
+          for(let lis of listItems) {
+            //console.log(lis.innerHTML);
+            if (lis.innerHTML == "LEC ") {
+              //console.log(lis.parentElement);
+              $(lis.parentElement).css({color: "maroon"});
+            } else if (lis.innerHTML == "LAB ") {
+              $(lis.parentElement).css({color: "grey"});
+            }
+          }
+        })
+        
+        //Selects LABS
+        homeButton.addEventListener('click', (e) => {
+          e.stopPropagation;
+          var listItems = $("#myCourseList li span");
+          for(let lis of listItems) {
+            //console.log(lis.innerHTML);
+            if (lis.innerHTML == "LAB ") {
+              //console.log(lis.parentElement);
+              $(lis.parentElement).css({color: "maroon"});
+            } else if (lis.innerHTML == "LEC ") {
+              $(lis.parentElement).css({color: "grey"});
+            }
+          }
+        })
       }
       
       //get data
@@ -304,10 +287,8 @@
         console.log("current data is ...", snap.data());
         document.getElementById("john").innerHTML= snap.data().lastName;
       });
-
       //first part of script is createUser();
       //showName();
-
       //all scripts are in scripts folder, holding js
     </script> -->
     
@@ -398,66 +379,7 @@
             }
           });
         });
-
     </script>
     
-      
-      
-
-    <script>
-      //api all to firebase database, finds reference into a bit of data, gets data, and sticks into DOM and display it
-      //onSnapshot is also listener; will update when data is updated
-      //handler goes in round brackets
-      db.collection("Users").doc("Courses").collection("Current Courses").doc("Course 1").onSnapshot(function(snap){
-        console.log("current data is ...", snap.data());
-        document.getElementById("stuff").innerHTML= snap.data().CourseBuilding;
-      });
-      db.collection("Users").doc("userInformation").onSnapshot(function(snap){
-        console.log("current data is ...", snap.data());
-        document.getElementById("john").innerHTML= snap.data().lastName;
-      });
-
-      //first part of script is createUser();
-      //showName();
-
-      //all scripts are in scripts folder, holding js
-    </script>
-    
-    <script>
-    // read .get() or .onSnapshot()
-    // writing .set() or .update() or .add()
-      $("#practiceSubmit").click(function() {
-        db.collection("Users").doc("Courses").collection("Current Courses").doc("Course 1").set({
-          CourseBuilding: "SE12"
-        })
-      });
-      
-      $("#practiceSubmit").click(function() {
-        db.collection("Users").doc("Courses").set({
-          CourseBuilding: "SE12",
-          courseCode: "1712",
-          courseName: "COMP"
-        })
-      });
-    
-
-    </script>
-    <script src ="scripts/add-user.js"></script>
-    <script src ="scripts/add-schedule.js"></script>
-      <script>
-          createUser();
-          
-      </script>
-      <script>
-          $("#practiceSubmit").click(function(event){
-              event.preventDefault();
-              var cName = document.getElementById("courseName").value;
-              var cCode = document.getElementById("courseCode").value;
-              var cNum = document.getElementById("courseNumber").value;
-              var cBuilding = document.getElementById("courseBuilding").value;
-              var cRoom = document.getElementById("courseRoom").value;
-              addSchedule(cName, cBuilding, cCode, cNum, cRoom);;
-          })
-      </script>
   </body>
 </html>
