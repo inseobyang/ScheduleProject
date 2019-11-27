@@ -20,8 +20,6 @@
     <script src="https://www.gstatic.com/firebasejs/7.2.2/firebase-firestore.js"></script>
     <script src="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.js"></script>
     <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css" />
-
-    <!------------------------ Link to firebase ------------------------------------------------------>
   <script>
     var firebaseConfig = {
       apiKey: "AIzaSyD2QaXTqDNi9hBP5gMK9z_19YVKoBU9NeM",
@@ -32,15 +30,11 @@
       messagingSenderId: "610999211117",
       appId: "1:610999211117:web:c490ce02c2b24418b09b64"
     };
-    
     firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
-    
     </script>
     
-    <!----------------------------- Styling ---------------------------------------------------------------->
     <style>
-      
       #secondSchedule {
         grid-area: "second-schedule";
       }
@@ -86,7 +80,6 @@
         grid-area: options;
       }
       
-      .
       .grid-container .header {
         grid-area: header;
         background-color: white;
@@ -147,17 +140,16 @@
       <div class="schedule">
         <ul id="myCourseList"></ul>
         <form id="course-form">
-          <input type="text" id = "cCode" name="newCode" placeholder="Course code..."><br>
+          <input type="text" id = "cCode" name="newCode" placeholder="Course code (eg. COMP)"><br>
           <input type="text" id = "cNum" name="newNumber" placeholder="Course number..."><br>
           <input type="text" id = "cType" name="newType" placeholder="Course type..."><br>
           <input type="text" id = "cBuilding" name="newBuilding" placeholder="Course building..."><br>
           <input type="text" id = "cRoom" name="newRoom" placeholder="Course room..."><br>
-          <input type="text" id = "cStart" name="newStart" placeholder="Start time..."><br>
-          <input type="text" id = "cEnd" name="newEnd" placeholder="End time..."><br>
-          <button id="newAddButton"> Add course to schedule </button>
-            <button id = "submit">Submit</button>
-          <input type="text" id = "cStart" name="startTime" placeholder="Class Start Time..."><br>
-          <input type="text" id = "cEnd" name="endTime" placeholder="Class End Time..."><br>
+          <input type="text" id = "cStartHour" name="newStart" placeholder="Start hour..."><br>
+          <input type="text" id = "cStartMinute" name="newStart" placeholder="Start minute..."><br>
+          <input type="text" id = "cEndHour" name="newEnd" placeholder="End hour eg.8"><br>
+          <input type="text" id = "cEndMinute" name="newEnd" placeholder="End minute eg.20"><br>
+          <input type="date" id = "cDate" name="newDate"><br>
           <button id = "addCourse"> Add course to schedule </button>
             <!-- <button id = "submit">Submit</button> !-->
             <button id = "clear">Clear</button>
@@ -180,8 +172,10 @@
         let courseType = document.createElement('span');
         let building = document.createElement('span');
         let room = document.createElement('span');
-        let startTime = document.createElement('span');
-        let endTime = document.createElement('span');
+        let startHour = document.createElement('span');
+        let startMinute = document.createElement('span');
+        let endHour = document.createElement('span');
+        let endMinute = document.createElement('span');
         let closeButton = document.createElement('span');
         
         //reads course data from database and assigns to created elements
@@ -189,10 +183,12 @@
         code.textContent = doc.data().courseCode + " ";
         number.textContent = doc.data().courseNumber + " ";
         courseType.textContent = doc.data().courseType + " ";
-        building.textContent = doc.data().building + " ";
-        room.textContent = doc.data().roomNumber + " ";
-        startTime.textContent = doc.data().cStartTime;
-        endTime.textContent = doc.data().cEndTime;
+        building.textContent = doc.data().courseBuilding + " ";
+        room.textContent = doc.data().courseRoom + " ";
+        startHour.textContent = doc.data().courseStartHour;
+        startMinute.textContent = doc.data().courseStartMinute;
+        endHour.textContent = doc.data().courseEndHour;
+        endMinute.textContent = doc.data().courseEndMinute;
         
         closeButton.textContent = "[X]";
         
@@ -202,8 +198,10 @@
         li.appendChild(courseType);
         li.appendChild(building);
         li.appendChild(room);
-        li.appendChild(startTime);
-        li.appendChild(endTime);
+        li.appendChild(startHour);
+        li.appendChild(startMinute);
+        li.appendChild(endHour);
+        li.appendChild(endMinute);
         li.appendChild(closeButton);
         
         //append list element to list
@@ -211,10 +209,11 @@
         
         //remove data
         //grabs unique document id by going from closeButton -> li -> li attribute which is doc id
-        closeButton.addEventListener('click', (e) => {
-          e.stopPropagation;
-          let id = e.target.parentElement.getAttribute('data-id');
-          db.collection("newCourses").doc(id).delete();
+        firebase.auth().onAuthStateChanged(function (user){
+          closeButton.addEventListener('click', (e) => {
+            e.stopPropagation;
+            let id = e.target.parentElement.getAttribute('data-id'); db.collection("Users").doc(user.uid).collection("Courses").doc(id).delete();
+          });
         });
         
         let homeButton = document.querySelector('#home-button');
@@ -235,7 +234,7 @@
               $(lis.parentElement).css({color: "grey", "font-weight": "normal"});
             }
           }
-        })
+        });
         
         //Selects LABS
         homeButton.addEventListener('click', (e) => {
@@ -262,10 +261,10 @@
       
       
       //listening
-    firebase.auth().onAuthStateChanged(function (user){
-       db.collection("Users").doc(user.uid).collection("Courses").onSnapshot(snapshot => {
+    firebase.auth().onAuthStateChanged(function (user){       db.collection("Users").doc(user.uid).collection("Courses").onSnapshot(snapshot => {
         let changes = snapshot.docChanges(); //assign all changes to variable changes
         changes.forEach(change => {
+          console.log(change.doc);
           if(change.type == 'added') {
             renderCourses(change.doc);
           } else if (change.type == 'removed') {
@@ -277,17 +276,17 @@
     })
       //Event handler for submit form button
       form.addEventListener('submit', (e) => {
-        //need to prevent default button
         e.preventDefault();
-        //add fields for courseCode, Number, Type, Building, and room Number
-        db.collection('newCourses').add({
+        db.collection("Users").doc(user.uid).collection("Courses").add({
           courseCode: form.newCode.value,
           courseNumber: form.newNumber.value,
           courseType: form.newType.value,
           building: form.newBuilding.value,
           roomNumber: form.newRoom.value,
-          cStartTime: form.newStart.value,
-          cEndTime: form.newEnd.value
+          cStartHour: form.newStartHour.value,
+          cStartMinute: form.newStartMinute.value,
+          cEndHour: form.newEndHour.value,
+          cEndMinute: form.newEndMinute.value
         });
 
         console.log("scheduler thing added");
@@ -299,16 +298,6 @@
         form.newBuilding.value = '';
         form.newRoom.value = '';
       })
-
-      //COLOR LABS HOT PINK -- rework later because I don't think this part applies yet; going to try function instead first
-      
-      /*db.collection("newCourses").where('courseType', '==', 'LAB').get().then((snapshot) => {
-        snapshot.docs.forEach(doc)
-      });*/
-      
-      
-      //submit data
-      
     </script>
     
     <script>
@@ -318,7 +307,7 @@
           var events = [
             {
               content: 'COMP 2714',
-              startDate: new Date(2020, 00, 06, 11, 30),
+              startDate: new Date(2020, 00, 06, 11,  30),
               endDate: new Date(2020, 00, 06, 12, 20)
             },
             {
@@ -409,15 +398,10 @@
         }
       );
     </script>
-
     <script>
-        $(document).ready(function() {
-          var firstName = "John";
-          var lastName = "Yang";
-          $(".header").append("<p>" + firstName + " " + lastName + "'s Class Schedule: </p>");
-        });
-
+      
         $(document).ready(function(){
+          $(".header").append("<p> Class Schedule </p>");
             /* $("#submit").click(function(event){
                 event.preventDefault();
                 var cType = document.getElementById("cType").value;
@@ -428,26 +412,30 @@
                 addSchedule(cType, cBuilding, cCode, cNum, cRoom);
         }) */
             $("#addCourse").click(function(event) {
-            event.preventDefault();
+                event.preventDefault();
                 var cType = document.getElementById("cType").value;
                 var cCode = document.getElementById("cCode").value;
                 var cNum = document.getElementById("cNum").value;
                 var cBuilding = document.getElementById("cBuilding").value;
                 var cRoom = document.getElementById("cRoom").value;
-                addSchedule(cType, cBuilding, cCode, cNum, cRoom);
+                var cStartHour = document.getElementById("cStartHour").value;
+                var cStartMinute = document.getElementById("cStartMinute").value;
+                var cEndHour = document.getElementById("cEndHour").value;
+                var cEndMinute = document.getElementById("cEndMinute").value;
+                addSchedule(cType, cBuilding, cCode, cNum, cRoom, cStartHour, cStartMinute, cEndHour, cEndMinute);
             db.collection('newCourses').add({
-                  courseCode: document.getElementById("cCode").value,
-                  courseNumber: document.getElementById("cNum").value,
-                  courseType: document.getElementById("cType").value,
-                  building: document.getElementById("cBuilding").value,
-                  roomNumber: document.getElementById("cRoom").value
+                courseCode: document.getElementById("cCode").value,
+                courseNumber: document.getElementById("cNum").value,
+                courseType: document.getElementById("cType").value,
+                building: document.getElementById("cBuilding").value,
+                roomNumber: document.getElementById("cRoom").value,
+              
                 
         })
             })
               $("#clear").click(function(event) {
                   event.preventDefault();
                   document.getElementById("course-form").reset();
-                  
             })
               });
     </script>
