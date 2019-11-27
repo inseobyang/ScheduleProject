@@ -5,6 +5,8 @@
     <title> Home page </title>
     <meta charset="utf-8"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.alloyui.com/3.0.1/aui/aui-min.js"></script>
+    <link href="https://cdn.alloyui.com/3.0.1/aui-css/css/bootstrap.min.css" rel="stylesheet"/>
     
     <!------------------------------------------------------------------------------>
     <!-- Bootstrap for Mobile-first                                               -->
@@ -38,6 +40,10 @@
     
     <!----------------------------- Styling ---------------------------------------------------------------->
     <style>
+      
+      #secondSchedule {
+        grid-area: "second-schedule";
+      }
       
       html, body {
         margin: 0;
@@ -79,6 +85,8 @@
       .options {
         grid-area: options;
       }
+      
+      .
       .grid-container .header {
         grid-area: header;
         background-color: white;
@@ -103,7 +111,6 @@
         text-align: center;
         background-color: white;
       }
-      
       .grid-container {
         display:inline-grid;
         vertical-align: middle;
@@ -113,14 +120,14 @@
         border-right: 1px solid darkblue;
         width: 100%;
         grid-template-columns: 1fr;
-        grid-template-rows: 10% 20% 75% 10%;
+        grid-template-rows: 10% 20% 75% 10% 30%;
         grid-template-areas:
           "nav"
           "header"
           "schedule"
           "footer"
+          "second-schedule"
       }
-      
     </style>
   </head>
   
@@ -131,7 +138,7 @@
         <div class="search" id="home-button"><p> | LABS | </p></div>
         <div class="home" id="profile-button"><p> | LECTURES | </p></div>
         <div class="profile"><p> | Connections | </p></div>
-        <div class="options"><p> | Options | </p></div>
+        <div class="options"><p> | Menu | </p></div>
       </div>
       
       <div class="header">
@@ -145,18 +152,18 @@
           <input type="text" id = "cType" name="newType" placeholder="Course type..."><br>
           <input type="text" id = "cBuilding" name="newBuilding" placeholder="Course building..."><br>
           <input type="text" id = "cRoom" name="newRoom" placeholder="Course room..."><br>
-          <button> Add course to schedule </button>
+          <input type="text" id = "cStart" name="newStart" placeholder="Start time..."><br>
+          <input type="text" id = "cEnd" name="newEnd" placeholder="End time..."><br>
+          <button id="newAddButton"> Add course to schedule </button>
             <button id = "submit">Submit</button>
         </form>
       </div>
 
-      <div class="footer">
-      </div>
-      
+      <div class="footer" id="myFooter"></div>
+      <div id="secondSchedule"></div>
     </div>
     
     <script>
-      
       const form = document.querySelector('#course-form');
       const courseList = document.querySelector('#myCourseList');
       
@@ -168,6 +175,8 @@
         let courseType = document.createElement('span');
         let building = document.createElement('span');
         let room = document.createElement('span');
+        let startTime = document.createElement('span');
+        let endTime = document.createElement('span');
         let closeButton = document.createElement('span');
         
         //reads course data from database and assigns to created elements
@@ -177,6 +186,9 @@
         courseType.textContent = doc.data().courseType + " ";
         building.textContent = doc.data().building + " ";
         room.textContent = doc.data().roomNumber + " ";
+        startTime.textContent = doc.data().cStartTime;
+        endTime.textContent = doc.data().cEndTime;
+        
         closeButton.textContent = "[X]";
         
         //append each element to list element
@@ -185,6 +197,8 @@
         li.appendChild(courseType);
         li.appendChild(building);
         li.appendChild(room);
+        li.appendChild(startTime);
+        li.appendChild(endTime);
         li.appendChild(closeButton);
         
         //append list element to list
@@ -254,7 +268,7 @@
           }
         })
       })
-
+      
       //Event handler for submit form button
       form.addEventListener('submit', (e) => {
         //need to prevent default button
@@ -265,8 +279,13 @@
           courseNumber: form.newNumber.value,
           courseType: form.newType.value,
           building: form.newBuilding.value,
-          roomNumber: form.newRoom.value
+          roomNumber: form.newRoom.value,
+          cStartTime: form.newStart.value,
+          cEndTime: form.newEnd.value
         });
+
+        console.log("scheduler thing added");
+        
         //clears form values
         form.newCode.value = '';
         form.newNumber.value = '';
@@ -275,133 +294,120 @@
         form.newRoom.value = '';
       })
     </script>
-    <!-------------------------------------------------------- JUST NOTES
-    <script>
-      //api all to firebase database, finds reference into a bit of data, gets data, and sticks into DOM and display it
-      //onSnapshot is also listener; will update when data is updated
-      //handler goes in round brackets
-      db.collection("Users").doc("Courses").collection("Current Courses").doc("Course 1").onSnapshot(function(snap){
-        console.log("current data is ...", snap.data());
-        document.getElementById("stuff").innerHTML= snap.data().CourseBuilding;
-      });
-      db.collection("Users").doc("userInformation").onSnapshot(function(snap){
-        console.log("current data is ...", snap.data());
-        document.getElementById("john").innerHTML= snap.data().lastName;
-      });
-      //first part of script is createUser();
-      //showName();
-      //all scripts are in scripts folder, holding js
-    </script> -->
     
     <script>
-    // read .get() or .onSnapshot()
-    // writing .set() or .update() or .add()
-      $("#practiceSubmit").click(function() {
-        db.collection("Users").doc("Courses").collection("Current Courses").doc("Course 1").set({
-          CourseBuilding: "SE12"
-        })
-      });
-      
-      $("#practiceSubmit").click(function() {
-        db.collection("Users").doc("Courses").set({
-          CourseBuilding: "SE12",
-          courseCode: "1712",
-          courseName: "COMP"
-        })
-      });
+      YUI().use(
+        'aui-scheduler',
+        function(Y) {
+          var events = [
+            {
+              content: 'COMP 2714',
+              startDate: new Date(2020, 00, 06, 11, 30),
+              endDate: new Date(2020, 00, 06, 12, 20)
+            },
+            {
+              content: 'COMP 2121',
+              startDate: new Date(2020, 00, 06, 12, 30),
+              endDate: new Date(2020, 00, 06, 14, 20)
+            },
+            {
+              content: 'COMP 2522',
+              startDate: new Date(2020, 00, 07, 09, 30),
+              endDate: new Date(2020, 00, 07, 11, 20)
+            },
+            {
+              content: 'COMP 2714',
+              startDate: new Date(2020, 00, 07, 11, 30),
+              endDate: new Date(2020, 00, 07, 13, 20)
+            },
+            {
+              content: 'COMP 2522',
+              startDate: new Date(2020, 00, 07, 14, 30),
+              endDate: new Date(2020, 00, 07, 15, 20)
+            },
+            {
+              content: 'COMP 2216',
+              startDate: new Date(2020, 00, 07, 15, 30),
+              endDate: new Date(2020, 00, 07, 17, 20)
+            },
+            {
+              content: 'COMP 2522',
+              startDate: new Date(2020, 00, 08, 10, 30),
+              endDate: new Date(2020, 00, 08, 12, 20)
+            },
+            {
+              content: 'COMP 2121' + '<br>' + 'LEC',
+              startDate: new Date(2020, 00, 08, 12, 30),
+              endDate: new Date(2020, 00, 08, 14, 20)
+            },
+            {
+              content: 'COMP 2216',
+              startDate: new Date(2020, 00, 09, 09, 30),
+              endDate: new Date(2020, 00, 09, 11, 20)
+            },
+            {
+              content: 'COMP 2721',
+              startDate: new Date(2020, 00, 09, 11, 30),
+              endDate: new Date(2020, 00, 09, 13, 20)
+            },
+            {
+              content: 'COMP 2721',
+              startDate: new Date(2020, 00, 09, 14, 30),
+              endDate: new Date(2020, 00, 09, 16, 20)
+            },
+            {
+              content: 'COMP 2510' + '<br>' + 'LEC',
+              startDate: new Date(2020, 00, 09, 16, 30),
+              endDate: new Date(2020, 00, 09, 17, 20)
+            },
+            {
+              content: 'COMP 2714',
+              startDate: new Date(2020, 00, 10, 8, 30),
+              endDate: new Date(2020, 00, 10, 10, 20)
+            },
+            {
+              content: 'COMP 2510' + '<br>' + 'LAB',
+              startDate: new Date(2020, 00, 10, 13, 30),
+              endDate: new Date(2020, 00, 10, 15, 20)
+            },
+            {
+              content: 'COMP 2510' + '<br>' + 'LEC',
+              startDate: new Date(2020, 00, 10, 15, 30),
+              endDate: new Date(2020, 00, 10, 17, 20)
+            }
+          ];
+          var weekView = new Y.SchedulerWeekView();
+          
+          var newScheduler = new Y.Scheduler(
+            {
+              boundingBox: '#myFooter',
+              date: new Date(2020, 00, 06, 8, 30),
+              //eventRecorder: eventRecorder,
+              items: events,
+              render: true,
+              views: [weekView]
+            }
+          );
+          
+          YUI.Scheduler.clearAll();
+        }
+      );
     </script>
-  
-  <script>
-      $(document).ready(function() {
-        var firstName = "John";
-        var lastName = "Yang";
-        $(".header").append("<p>" + firstName + " " + lastName + "'s Class Schedule: </p>");
-      });
-  </script>
-    
-  <script>
-      $(document).ready(function() {
-        var d = new Date();
-        yr = d.getFullYear();
-        month = d.getMonth()+1;
-        if (month == 1) {
-          month = "January";
-        }
-        else if (month == 2) {
-          month = "February";
-        }
-        else if (month == 3) {
-          month = "March";
-        }
-        else if (month == 4) {
-          month = "April";
-        }
-        else if (month == 5) {
-          month = "May";
-        }
-        else if (month == 6) {
-          month = "June";
-        }
-        else if (month == 7) {
-          month = "July";
-        }
-        else if (month == 8) {
-          month = "August";
-        }
-        else if (month == 9) {
-          month = "September";
-        }
-        else if (month == 10) {
-          month = "October";
-        }
-        else if (month == 11) {
-          month = "November";
-        }
-        else if (month == 12) {
-          month = "December";
-        }
-        day = d.getDate();
-        var dateToday = "<p id='date'> Week of " + month + " " + day + ", " + yr + "</p>";
-        $(".header").append(dateToday);
-        
-          $("#logo").click(function(){
-            if (day + 7 < 31) {
-              day = day + 7;
-              $('#date').remove();
-              dateToday = "<p id='date'> Week of " + month + " " + day + ", " + yr + "</p>";
-              $(".header").append(dateToday);
-            }
-            else {
-              month = "December";
-              day = day - 30 + 7;
-              $('#date').remove();
-              dateToday = "<p id='date'> Week of " + month + " " + day + ", " + yr + "</p>";
-              $(".header").append(dateToday);
-            }
-          });
+
+    <script>
+        $(document).ready(function() {
+          var firstName = "John";
+          var lastName = "Yang";
+          $(".header").append("<p>" + firstName + " " + lastName + "'s Class Schedule: </p>");
         });
     </script>
-      
     <script src="scripts/add-user.js"></script>
     <script src="scripts/add-schedule.js"></script>
-    <script>
-        //adding user to database
-        createUser();
-        //adding scheudle to database
-      </script>
-    <script>
-        $(document).ready(function(){
-            $("#submit").click(function(event){
-            event.preventDefault();
-            var cType = document.getElementById("cType").value;
-            var cCode = document.getElementById("cCode").value;
-            var cNum = document.getElementById("cNum").value;
-            var cBuilding = document.getElementById("cBuilding").value;
-            var cRoom = document.getElementById("cRoom").value;
-            addSchedule(cType, cBuilding, cCode, cNum, cRoom);
-        });
-        });
-    </script>
-    
+    <script src="scripts/OldJSFunction.js"></script>
+      <script>
+          //adding user to database
+          createUser();
+          //adding scheudle to database
+        </script>
   </body>
 </html>
