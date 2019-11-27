@@ -1,3 +1,4 @@
+//might be broken due to merge
 {
   "database": {
     "rules": "database.rules.json"
@@ -8,6 +9,7 @@
   },
   "hosting": {
     "public": "mkdir hosting",
+    "public": ".",
     "ignore": [
       "firebase.json",
       "**/.*",

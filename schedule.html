@@ -132,7 +132,7 @@
   </head>
   
   <body>
-    <div class="grid-container">    
+    <div class="grid-container">
       <div class="nav">
         <div class="logo"><img id="logo" src="ScheduleLogo.svg"></div>
         <div class="search" id="home-button"><p> | LABS | </p></div>
@@ -156,6 +156,11 @@
           <input type="text" id = "cEnd" name="newEnd" placeholder="End time..."><br>
           <button id="newAddButton"> Add course to schedule </button>
             <button id = "submit">Submit</button>
+          <input type="text" id = "cStart" name="startTime" placeholder="Class Start Time..."><br>
+          <input type="text" id = "cEnd" name="endTime" placeholder="Class End Time..."><br>
+          <button id = "addCourse"> Add course to schedule </button>
+            <!-- <button id = "submit">Submit</button> !-->
+            <button id = "clear">Clear</button>
         </form>
       </div>
 
@@ -257,7 +262,8 @@
       
       
       //listening
-      db.collection("newCourses").onSnapshot(snapshot => {
+    firebase.auth().onAuthStateChanged(function (user){
+       db.collection("Users").doc(user.uid).collection("Courses").onSnapshot(snapshot => {
         let changes = snapshot.docChanges(); //assign all changes to variable changes
         changes.forEach(change => {
           if(change.type == 'added') {
@@ -268,7 +274,7 @@
           }
         })
       })
-      
+    })
       //Event handler for submit form button
       form.addEventListener('submit', (e) => {
         //need to prevent default button
@@ -293,6 +299,16 @@
         form.newBuilding.value = '';
         form.newRoom.value = '';
       })
+
+      //COLOR LABS HOT PINK -- rework later because I don't think this part applies yet; going to try function instead first
+      
+      /*db.collection("newCourses").where('courseType', '==', 'LAB').get().then((snapshot) => {
+        snapshot.docs.forEach(doc)
+      });*/
+      
+      
+      //submit data
+      
     </script>
     
     <script>
@@ -400,6 +416,40 @@
           var lastName = "Yang";
           $(".header").append("<p>" + firstName + " " + lastName + "'s Class Schedule: </p>");
         });
+
+        $(document).ready(function(){
+            /* $("#submit").click(function(event){
+                event.preventDefault();
+                var cType = document.getElementById("cType").value;
+                var cCode = document.getElementById("cCode").value;
+                var cNum = document.getElementById("cNum").value;
+                var cBuilding = document.getElementById("cBuilding").value;
+                var cRoom = document.getElementById("cRoom").value;
+                addSchedule(cType, cBuilding, cCode, cNum, cRoom);
+        }) */
+            $("#addCourse").click(function(event) {
+            event.preventDefault();
+                var cType = document.getElementById("cType").value;
+                var cCode = document.getElementById("cCode").value;
+                var cNum = document.getElementById("cNum").value;
+                var cBuilding = document.getElementById("cBuilding").value;
+                var cRoom = document.getElementById("cRoom").value;
+                addSchedule(cType, cBuilding, cCode, cNum, cRoom);
+            db.collection('newCourses').add({
+                  courseCode: document.getElementById("cCode").value,
+                  courseNumber: document.getElementById("cNum").value,
+                  courseType: document.getElementById("cType").value,
+                  building: document.getElementById("cBuilding").value,
+                  roomNumber: document.getElementById("cRoom").value
+                
+        })
+            })
+              $("#clear").click(function(event) {
+                  event.preventDefault();
+                  document.getElementById("course-form").reset();
+                  
+            })
+              });
     </script>
     <script src="scripts/add-user.js"></script>
     <script src="scripts/add-schedule.js"></script>
