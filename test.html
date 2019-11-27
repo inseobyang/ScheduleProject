@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <style> /* The side navigation menu */
+                .schedule {
+                  height: 100%; /* 100% Full-height */
+                  width: 0; /* 0 width - change this with JavaScript */
+                  position: fixed; /* Stay in place */
+                  z-index: 1; /* Stay on top */
+                  top: 0; /* Stay at the top */
+                  left: 0;
+                  opacity: 0.90;
+                  background-color: #FFF; /* Black*/
+                  overflow-x: hidden; /* Disable horizontal scroll */
+                  transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+                  text-align: center;
+                }
+                /* Position and style the close button (top right corner) */
+                .schedule .closebtn {
+                  opacity: 1;
+                  position: absolute;
+                  top: 0px;
+                  right: 0px;
+                  font-size: 20px;
+                  color: black;
+                }
+                .schedule a{
+                    text-decoration: none;
+                }
+                input {
+                  width: 50%;
+                  opacity: 1;
+                  margin: 1px 0;
+                  border: 1px solid;
+                  font-size: 5pt;
+                }
+                img{
+                    opacity: 1;
+                    height: 25px;
+                    }
+
+                @media only screen and (min-width: 400px) {
+                  .sidenav {padding-top: 15px;
+                    }
+                  .sidenav a {font-size: 200px;
+                    }
+                    img{ height: 100px;
+                    }
+                    .schedule .closebtn{
+                        font-size: 150px;
+                        right: 5%;
+                    }
+                    input{
+                        margin-top: 50px;
+                        font-size: 50pt;
+                    }
+                    button{
+                    background-color: green;
+                    font-size: 50pt;
+                    width: 20%;
+                    margin-right: 5%;
+                    }
+                }
+
+        </style>
+    </head>
+    <body>
+ 
+        <div class="schedule" id="schedules">
+           <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <ul id="myCourseList"></ul>
+        <form id="course-form">
+          <input type="text" id = "cCode" name="newCode" placeholder="Course code (eg. COMP)"><br>
+          <input type="text" id = "cNum" name="newNumber" placeholder="Course number..."><br>
+          <input type="text" id = "cType" name="newType" placeholder="Course type..."><br>
+          <input type="text" id = "cBuilding" name="newBuilding" placeholder="Course building..."><br>
+          <input type="text" id = "cRoom" name="newRoom" placeholder="Course room..."><br>
+          <input type="text" id = "cStartHour" name="newStart" placeholder="Start hour..."><br>
+          <input type="text" id = "cStartMinute" name="newStart" placeholder="Start minute..."><br>
+          <input type="text" id = "cEndHour" name="newEnd" placeholder="End hour eg.8"><br>
+          <input type="text" id = "cEndMinute" name="newEnd" placeholder="End minute eg.20"><br>
+          <input type="date" id = "cDate" name="newDate"><br>
+          <button id = "addCourse"> Add  </button>
+            <!-- <button id = "submit">Submit</button> !-->
+            <button id = "clear">Clear</button>
+        </form>
+        </div>
+        <img onclick="openNav()" src="addschedule.svg" id = "hi">
+
+        <script>/* Set the width of the side navigation to 250px */
+            function openNav() {
+              document.getElementById("schedules").style.width = "100%";
+                document.getElementById("hi").style.display = "none"
+            }
+
+            /* Set the width of the side navigation to 0 */
+            function closeNav() {
+              document.getElementById("schedules").style.width = "0";
+                document.getElementById("hi").style.display = "block"
+}       </script>
+    </body>
+</html>

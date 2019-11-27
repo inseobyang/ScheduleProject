@@ -62,7 +62,7 @@
       }
       #logo {
         width: 48px;
-        height: 48px;        
+        height: 48px;
       }
       .logo { 
         grid-area: logo;
@@ -89,16 +89,7 @@
         letter-spacing: 1px;
         text-align: center;
       }
-      .grid-container .schedule {
-        font-size: 14pt;
-        grid-area: schedule;
-        margin-left: 25px;
-        margin-right: 25px;
-        box-shadow: 0px 0px 10px 0px inset black;
-        background-color: #f2f2f2;
-        text-align: center;
-        text-align: left;
-      }
+
       .grid-container .footer {
         grid-area: footer;
         text-align: center;
@@ -117,10 +108,82 @@
         grid-template-areas:
           "nav"
           "header"
-          "schedule"
           "footer"
           "second-schedule"
       }
+        #add {
+            height:30px;
+        }
+        #add img{
+            position: absolute;
+            right: 2%;
+            height: 100px;
+        }
+        .schedule {
+                  height: 100%; 
+                  width: 0; 
+                  position: fixed; 
+                  z-index: 2; 
+                  top: 0; 
+                  left: 0;
+                  opacity: .9;
+                  background-color: #FFF;
+                  overflow-x: hidden; 
+                  overflow-y: hidden;
+                  transition: 0.5s; 
+                  text-align: center;
+                }
+                .schedule .closebtn {
+                  opacity: 1;
+                  position: absolute;
+                  top: 0px;
+                  right: 0px;
+                  font-size: 20px;
+                  color: black;
+                }
+                .schedule a{
+                    text-decoration: none;
+                }
+                input {
+                  width: 70%;
+                  opacity: 1;
+                  margin: 1px 1px;
+                  border: 1px solid;
+                  font-size: 5pt;
+                  box-sizing:border-box;
+                }
+                img{
+                    opacity: 1;
+                    height: 25px;
+                    }
+
+                @media only screen and (min-width: 400px) {
+                  .sidenav {padding-top: 15px;
+                    }
+                  .sidenav a {font-size: 200px;
+                    }
+                    img{ height: 100px;
+                    }
+                    .schedule .closebtn{
+                        font-size: 150px;
+                        right: 2%;
+                    }
+                    input{
+                        margin-top: 20px;
+                        font-size: 50pt;
+                    }
+                    button{
+                    background-color: green;
+                    font-size: 50pt;
+                    width: 20%;
+                    margin-right: 5%;
+                    margin-top: 5%;
+                    }
+                    input[type=date] {
+                        
+                    }
+                }
+
     </style>
   </head>
   
@@ -135,9 +198,14 @@
       </div>
       
       <div class="header">
+         <div id = "add"><img onclick="openNav()" id = "addSchdeuleImg" src = "addschedule.svg"></div>
       </div>
+        <div class="footer" id="myFooter"></div>
+        <div id="secondSchedule"></div>
+        </div>
       
-      <div class="schedule">
+        <div class="schedule" id="schedules">
+           <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
         <ul id="myCourseList"></ul>
         <form id="course-form">
           <input type="text" id = "cCode" name="newCode" placeholder="Course code (eg. COMP)"><br>
@@ -149,18 +217,29 @@
           <input type="text" id = "cStartMinute" name="newStart" placeholder="Start minute..."><br>
           <input type="text" id = "cEndHour" name="newEnd" placeholder="End hour eg.8"><br>
           <input type="text" id = "cEndMinute" name="newEnd" placeholder="End minute eg.20"><br>
-          <input type="date" id = "cDate" name="newDate"><br>
-          <button id = "addCourse"> Add course to schedule </button>
-            <!-- <button id = "submit">Submit</button> !-->
+          <input type="date" id = "cDate" name="newDate" ><br>
+          <button id = "addCourse"> Add  </button>
             <button id = "clear">Clear</button>
         </form>
-      </div>
+        </div>
+      
+        <script>
+            function openNav() {
+              document.getElementById("schedules").style.width = "100%";
+                document.getElementById("addSchdeuleImg").style.display = "none";
+                document.body.style.position = "fixed";
+                document.getElementById("myFooter").style.display = "none";
+            }
 
-      <div class="footer" id="myFooter"></div>
-      <div id="secondSchedule"></div>
-    </div>
-    
-    <script>
+            function closeNav() {
+              document.getElementById("schedules").style.width = "0";
+                document.getElementById("addSchdeuleImg").style.display = "block";
+                document.body.style.position = "static";
+                document.getElementById("myFooter").style.display = "block";
+            }
+      </script>
+      
+      <script>
       const form = document.querySelector('#course-form');
       const courseList = document.querySelector('#myCourseList');
       
