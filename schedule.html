@@ -38,7 +38,7 @@
         <div class="logo"></div>
         <div class="search" id="home-button"><p> Your BCIT Class Schedule </p></div>
         <div class="home" id="profile-button"><p> Options </p></div>
-        <div class="profile"><p> Logout </p></div>
+        <div class="profile" id = "logout" onclick = "logout()"><p> Logout </p></div>
         <div class="add"><img onclick="openNav()" id = "addSchdeuleImg" src = "addschedule.svg"></div>
       </div>
 
@@ -66,12 +66,13 @@
           <button id = "clear">Clear</button>
         </form>
       </div>
-    
+      </div>
     <script src="scripts/generate-schedule.js"></script>
     <script src="scripts/add-course.js"></script>
     <script src="scripts/add-user.js"></script>
     <script src="scripts/add-schedule.js"></script>
     <script src="scripts/OldJSFunction.js"></script>
+    <script src="scripts/logout.js"></script>
     <script>
         //adding user to database
         createUser();

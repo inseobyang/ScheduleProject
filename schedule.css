@@ -212,4 +212,6 @@ button {
               }
               input[type=date] {
               }
-          }
+              #logout:hover{
+                  color: blue;
+              }

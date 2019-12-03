@@ -104,9 +104,7 @@
         form.newBuilding.value = '';
         form.newRoom.value = '';
       })
-    </script>
-    
-    <script>
+
       var oneClass = [];  
       firebase.auth().onAuthStateChanged(function (user){
         db.collection("Users").doc(user.uid).collection("Courses").onSnapshot(snapshot => {

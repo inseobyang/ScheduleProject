@@ -5,7 +5,7 @@ $("#addCourse").click(function(event) {
     var cNum = document.getElementById("cNum").value;
     var cBuilding = document.getElementById("cBuilding").value;
     var cRoom = document.getElementById("cRoom").value;
-   var cDate = new Date(document.getElementById("cDate").value);
+    var cDate = new Date(document.getElementById("cDate").value);
     var cStartHour = document.getElementById("cStartHour").value;
     var cStartMinute = document.getElementById("cStartMinute").value;
     var cEndHour = document.getElementById("cEndHour").value;
