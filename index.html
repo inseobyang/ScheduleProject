@@ -31,30 +31,31 @@
     </script>
     
     <style>
-      
-        
-        
-        body{
-    font-family: TAhoma, Geneva, sans-serif;
-    color: #fff;
-    background: url(loginPage/gg.jpg);
-            background-size : cover;}
-      
+      body {
+        font-family: "Oxygen";
+        color: white;
+        background-color: #071350;
+        margin: 0;
+        padding: 0;
+      }
+      h1 {
+        text-align: center;
+      }
       
       #firebaseui-auth-container {
         margin-top: 5%;
         padding-top: 25px;
         padding-bottom: 25px;
-        
+        background: #FFF507;
       }
     
     
     </style>
   </head>
   <body>
-    
+    <h1> BCIT Schedule Project </h1>
     <div id="firebaseui-auth-container"></div>
-    <div id="loader">Loading...</div>cheduleProject
+    <div id="loader">Loading...</div>
 
     
 
@@ -95,9 +96,5 @@
     // The start method will wait until the DOM is loaded.
       ui.start('#firebaseui-auth-container', uiConfig);
     </script>
-    
-    
-    
-    
   </body>
 </html>
