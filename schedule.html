@@ -2,43 +2,32 @@
 <html>
   <head>
     <link href='https://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet'>
-    <title> Home page </title>
+    <title> CourseScheduler </title>
     <meta charset="utf-8"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdn.alloyui.com/3.0.1/aui/aui-min.js"></script>
     <link href="https://cdn.alloyui.com/3.0.1/aui-css/css/bootstrap.min.css" rel="stylesheet"/>
-    
-    <!------------------------------------------------------------------------------>
-    <!-- Bootstrap for Mobile-first                                               -->
-    <!------------------------------------------------------------------------------>
-    <!-- <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script> -->
     <script src="https://www.gstatic.com/firebasejs/7.2.2/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.2.2/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.2.2/firebase-firestore.js"></script>
     <script src="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.js"></script>
     <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css" />
-  <script>
-    var firebaseConfig = {
-      apiKey: "AIzaSyD2QaXTqDNi9hBP5gMK9z_19YVKoBU9NeM",
-      authDomain: "comp1930-schedule-project.firebaseapp.com",
-      databaseURL: "https://comp1930-schedule-project.firebaseio.com",
-      projectId: "comp1930-schedule-project",
-      storageBucket: "comp1930-schedule-project.appspot.com",
-      messagingSenderId: "610999211117",
-      appId: "1:610999211117:web:c490ce02c2b24418b09b64"
-    };
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
+    
+    <script>
+      var firebaseConfig = {
+        apiKey: "AIzaSyD2QaXTqDNi9hBP5gMK9z_19YVKoBU9NeM",
+        authDomain: "comp1930-schedule-project.firebaseapp.com",
+        databaseURL: "https://comp1930-schedule-project.firebaseio.com",
+        projectId: "comp1930-schedule-project",
+        storageBucket: "comp1930-schedule-project.appspot.com",
+        messagingSenderId: "610999211117",
+        appId: "1:610999211117:web:c490ce02c2b24418b09b64"
+      };
+      firebase.initializeApp(firebaseConfig);
+      const db = firebase.firestore();
     </script>
     
     <style>
-      #secondSchedule {
-        grid-area: "second-schedule";
-      }
-      
       html, body {
         margin: 0;
         padding: 0;
@@ -47,6 +36,11 @@
       
       #course-form {
         margin-left: 10px;
+      }
+      
+      #course-form input{
+        font-size: 12pt;
+        padding: 5px;
       }
       
       .grid-container .nav {
@@ -61,11 +55,14 @@
         text-align: center;
       }
       #logo {
-        width: 48px;
-        height: 48px;
+        position: absolute;
+        left: 2%;
+        height: 50px;
+        top: 2%;
       }
       .logo { 
         grid-area: logo;
+        display: inline-grid;
       }
       .search {
         grid-area: search;
@@ -89,11 +86,11 @@
         letter-spacing: 1px;
         text-align: center;
       }
-
       .grid-container .footer {
         grid-area: footer;
         text-align: center;
         background-color: white;
+        height: 100%;
       }
       .grid-container {
         display:inline-grid;
@@ -104,12 +101,10 @@
         border-right: 1px solid darkblue;
         width: 100%;
         grid-template-columns: 1fr;
-        grid-template-rows: 10% 20% 75% 10% 30%;
+        grid-template-rows: 8% 92%;
         grid-template-areas:
           "nav"
-          "header"
           "footer"
-          "second-schedule"
       }
         #add {
             height:30px;
@@ -117,7 +112,8 @@
         #add img{
             position: absolute;
             right: 2%;
-            height: 100px;
+            height: 50px;
+            top: 2%;
         }
         .schedule {
                   height: 100%; 
@@ -148,6 +144,7 @@
                   width: 70%;
                   opacity: 1;
                   margin: 1px 1px;
+                  margin-top: 10px;
                   border: 1px solid;
                   font-size: 5pt;
                   box-sizing:border-box;
@@ -156,11 +153,7 @@
                     opacity: 1;
                     height: 25px;
                     }
-
                 @media only screen and (min-width: 400px) {
-                    .schedule {
-                        overflow-y: scroll;
-                    }
                   .sidenav {padding-top: 15px;
                     }
                   .sidenav a {font-size: 200px;
@@ -176,40 +169,39 @@
                         font-size: 50pt;
                     }
                     button{
-                    background-color: green;
-                    font-size: 50pt;
-                    width: 20%;
+                    background-color: lightskyblue;
+                    font-size: 12pt;
+                    width: 5%;
                     margin-right: 5%;
                     margin-top: 5%;
                     }
                     input[type=date] {
-                        
                     }
                 }
-
     </style>
   </head>
   
   <body>
     <div class="grid-container">
+      
       <div class="nav">
         <div class="logo"><img id="logo" src="ScheduleLogo.svg"></div>
-        <div class="search" id="home-button"><p> | LABS | </p></div>
+        <div class="search" id="home-button"><p> | Your Class Schedule | </p></div>
         <div class="home" id="profile-button"><p> | LECTURES | </p></div>
-        <div class="profile"><p> | Connections | </p></div>
-        <div class="options"><p> | Menu | </p></div>
+        <div class="profile"><p> | Logout | </p></div>
+        <div id = "add"><img onclick="openNav()" id = "addSchdeuleImg" src = "addschedule.svg"></div>
       </div>
+
       
-      <div class="header">
-         <div id = "add"><img onclick="openNav()" id = "addSchdeuleImg" src = "addschedule.svg"></div>
-      </div>
+      <div class="schedule2">
         <div class="footer" id="myFooter"></div>
         <div id="secondSchedule"></div>
-        </div>
+      </div>
       
         <div class="schedule" id="schedules">
            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
         <ul id="myCourseList"></ul>
+          
         <form id="course-form">
           <input type="text" id = "cCode" name="newCode" placeholder="Course code (eg. COMP)"><br>
           <input type="text" id = "cNum" name="newNumber" placeholder="Course number..."><br>
@@ -220,9 +212,9 @@
           <input type="text" id = "cStartMinute" name="newStart" placeholder="Start minute..."><br>
           <input type="text" id = "cEndHour" name="newEnd" placeholder="End hour eg.8"><br>
           <input type="text" id = "cEndMinute" name="newEnd" placeholder="End minute eg.20"><br>
-          <input type="date" id = "cDate" name="newDate" ><br>
+          <input type="date" id = "cDate" name="cDate"><br>
           <button id = "addCourse"> Add  </button>
-            <button id = "clear">Clear</button>
+          <button id = "clear">Clear</button>
         </form>
         </div>
       
@@ -233,7 +225,6 @@
                 document.body.style.position = "fixed";
                 document.getElementById("myFooter").style.display = "none";
             }
-
             function closeNav() {
               document.getElementById("schedules").style.width = "0";
                 document.getElementById("addSchdeuleImg").style.display = "block";
@@ -254,6 +245,9 @@
         let courseType = document.createElement('span');
         let building = document.createElement('span');
         let room = document.createElement('span');
+        let day = document.createElement('span');
+        let month = document.createElement('span');
+        let year = document.createElement('span');
         let startHour = document.createElement('span');
         let startMinute = document.createElement('span');
         let endHour = document.createElement('span');
@@ -267,6 +261,11 @@
         courseType.textContent = doc.data().courseType + " ";
         building.textContent = doc.data().courseBuilding + " ";
         room.textContent = doc.data().courseRoom + " ";
+        var date = (doc.data().courseDate).toDate();
+        day.textContent = date.getDate() + 1 + " ";
+        console.log(doc.data().courseDate);
+        month.textContent = date.getMonth() + 1 + " ";
+        year.textContent = date.getFullYear() + " ";
         startHour.textContent = doc.data().courseStartHour;
         startMinute.textContent = doc.data().courseStartMinute;
         endHour.textContent = doc.data().courseEndHour;
@@ -280,6 +279,9 @@
         li.appendChild(courseType);
         li.appendChild(building);
         li.appendChild(room);
+        li.appendChild(day);
+        li.appendChild(month);
+        li.appendChild(year);
         li.appendChild(startHour);
         li.appendChild(startMinute);
         li.appendChild(endHour);
@@ -297,12 +299,8 @@
             let id = e.target.parentElement.getAttribute('data-id'); db.collection("Users").doc(user.uid).collection("Courses").doc(id).delete();
           });
         });
-        
-        let homeButton = document.querySelector('#home-button');
-        let profileButton = document.querySelector('#profile-button');
-        
-        
-        //Selects LECTURES
+            
+/*        //Selects LECTURES
         profileButton.addEventListener('click', (e) => {
           e.stopPropagation;
           console.log("profile hit");
@@ -331,49 +329,38 @@
               $(lis.parentElement).css({"color": "grey", "font-weight": "normal"});
             }
           }
-        })
+        })*/
       }
-      
-      //get data
-      /*db.collection("newCourses").get().then((snapshot) => {
-        console.log(snapshot.docs.forEach(doc => {
-          renderCourses(doc);
-        }));
-      })*/
-      
-      
-      //listening
-    firebase.auth().onAuthStateChanged(function (user){       db.collection("Users").doc(user.uid).collection("Courses").onSnapshot(snapshot => {
+    firebase.auth().onAuthStateChanged(function (user){       
+      db.collection("Users").doc(user.uid).collection("Courses").onSnapshot(snapshot => {
         let changes = snapshot.docChanges(); //assign all changes to variable changes
         changes.forEach(change => {
           console.log(change.doc);
           if(change.type == 'added') {
-            renderCourses(change.doc);
+            //renderCourses(change.doc);
           } else if (change.type == 'removed') {
             let li = courseList.querySelector('[data-id=' + change.doc.id + ']');
             courseList.removeChild(li);
           }
         })
       })
-    })
-      //Event handler for submit form button
+    });
       form.addEventListener('submit', (e) => {
         e.preventDefault();
+        var nextDate = new Date($("#cDate").val());
         db.collection("Users").doc(user.uid).collection("Courses").add({
           courseCode: form.newCode.value,
           courseNumber: form.newNumber.value,
           courseType: form.newType.value,
           building: form.newBuilding.value,
           roomNumber: form.newRoom.value,
+          cDate: nextDate,
           cStartHour: form.newStartHour.value,
           cStartMinute: form.newStartMinute.value,
           cEndHour: form.newEndHour.value,
           cEndMinute: form.newEndMinute.value
         });
-
         console.log("scheduler thing added");
-        
-        //clears form values
         form.newCode.value = '';
         form.newNumber.value = '';
         form.newType.value = '';
@@ -383,116 +370,52 @@
     </script>
     
     <script>
-      YUI().use(
-        'aui-scheduler',
-        function(Y) {
-          var events = [
-            {
-              content: 'COMP 2714',
-              startDate: new Date(2020, 00, 06, 11,  30),
-              endDate: new Date(2020, 00, 06, 12, 20)
-            },
-            {
-              content: 'COMP 2121',
-              startDate: new Date(2020, 00, 06, 12, 30),
-              endDate: new Date(2020, 00, 06, 14, 20)
-            },
-            {
-              content: 'COMP 2522',
-              startDate: new Date(2020, 00, 07, 09, 30),
-              endDate: new Date(2020, 00, 07, 11, 20)
-            },
-            {
-              content: 'COMP 2714',
-              startDate: new Date(2020, 00, 07, 11, 30),
-              endDate: new Date(2020, 00, 07, 13, 20)
-            },
-            {
-              content: 'COMP 2522',
-              startDate: new Date(2020, 00, 07, 14, 30),
-              endDate: new Date(2020, 00, 07, 15, 20)
-            },
-            {
-              content: 'COMP 2216',
-              startDate: new Date(2020, 00, 07, 15, 30),
-              endDate: new Date(2020, 00, 07, 17, 20)
-            },
-            {
-              content: 'COMP 2522',
-              startDate: new Date(2020, 00, 08, 10, 30),
-              endDate: new Date(2020, 00, 08, 12, 20)
-            },
-            {
-              content: 'COMP 2121' + '<br>' + 'LEC',
-              startDate: new Date(2020, 00, 08, 12, 30),
-              endDate: new Date(2020, 00, 08, 14, 20)
-            },
-            {
-              content: 'COMP 2216',
-              startDate: new Date(2020, 00, 09, 09, 30),
-              endDate: new Date(2020, 00, 09, 11, 20)
-            },
-            {
-              content: 'COMP 2721',
-              startDate: new Date(2020, 00, 09, 11, 30),
-              endDate: new Date(2020, 00, 09, 13, 20)
-            },
-            {
-              content: 'COMP 2721',
-              startDate: new Date(2020, 00, 09, 14, 30),
-              endDate: new Date(2020, 00, 09, 16, 20)
-            },
-            {
-              content: 'COMP 2510' + '<br>' + 'LEC',
-              startDate: new Date(2020, 00, 09, 16, 30),
-              endDate: new Date(2020, 00, 09, 17, 20)
-            },
-            {
-              content: 'COMP 2714',
-              startDate: new Date(2020, 00, 10, 8, 30),
-              endDate: new Date(2020, 00, 10, 10, 20)
-            },
-            {
-              content: 'COMP 2510' + '<br>' + 'LAB',
-              startDate: new Date(2020, 00, 10, 13, 30),
-              endDate: new Date(2020, 00, 10, 15, 20)
-            },
-            {
-              content: 'COMP 2510' + '<br>' + 'LEC',
-              startDate: new Date(2020, 00, 10, 15, 30),
-              endDate: new Date(2020, 00, 10, 17, 20)
-            }
-          ];
-          var weekView = new Y.SchedulerWeekView();
-          
-          var newScheduler = new Y.Scheduler(
-            {
-              boundingBox: '#myFooter',
-              date: new Date(2020, 00, 06, 8, 30),
-              //eventRecorder: eventRecorder,
-              items: events,
-              render: true,
-              views: [weekView]
-            }
-          );
-          
-          YUI.Scheduler.clearAll();
-        }
-      );
+      var oneClass = [];  
+      firebase.auth().onAuthStateChanged(function (user){
+        db.collection("Users").doc(user.uid).collection("Courses").onSnapshot(snapshot => {
+          let files = snapshot;
+          files.forEach(file => {
+            console.log(file.data().courseType);
+            var lastDate = (file.data().courseDate).toDate();
+            let newClass = 
+                {
+                  content: (file.data().courseCode) + (file.data().courseNumber),
+                  startDate: new Date(lastDate.getFullYear(), lastDate.getMonth(), lastDate.getDate() + 1, file.data().courseStartHour, file.data().courseStartMinute),
+                  endDate: new Date(lastDate.getFullYear(), lastDate.getMonth(), lastDate.getDate() + 1, file.data().courseEndHour, file.data().courseEndMinute)
+                }
+            console.log(newClass);
+            oneClass.push(newClass);
+          })
+          console.log(oneClass);
+          makeSchedule();
+        })
+      });
     </script>
+    
     <script>
-      
-        $(document).ready(function(){
-          $(".header").append("<p> Class Schedule </p>");
-            /* $("#submit").click(function(event){
-                event.preventDefault();
-                var cType = document.getElementById("cType").value;
-                var cCode = document.getElementById("cCode").value;
-                var cNum = document.getElementById("cNum").value;
-                var cBuilding = document.getElementById("cBuilding").value;
-                var cRoom = document.getElementById("cRoom").value;
-                addSchedule(cType, cBuilding, cCode, cNum, cRoom);
-        }) */
+      function makeSchedule() {
+        YUI().use(
+          'aui-scheduler',
+          function(Y) {          
+            var events = oneClass;
+            var weekView = new Y.SchedulerWeekView();
+            var newScheduler = new Y.Scheduler(
+              {
+                boundingBox: '#myFooter',
+                date: new Date(2020, 00, 06, 8, 30),
+                //eventRecorder: eventRecorder,
+                items: events,
+                render: true,
+                views: [weekView]
+              }
+            );
+          }
+        )
+      };
+      console.log("schedule made!");
+    </script>
+    
+    <script>
             $("#addCourse").click(function(event) {
                 event.preventDefault();
                 var cType = document.getElementById("cType").value;
@@ -500,34 +423,25 @@
                 var cNum = document.getElementById("cNum").value;
                 var cBuilding = document.getElementById("cBuilding").value;
                 var cRoom = document.getElementById("cRoom").value;
+               var cDate = new Date(document.getElementById("cDate").value);
                 var cStartHour = document.getElementById("cStartHour").value;
                 var cStartMinute = document.getElementById("cStartMinute").value;
                 var cEndHour = document.getElementById("cEndHour").value;
                 var cEndMinute = document.getElementById("cEndMinute").value;
-                addSchedule(cType, cBuilding, cCode, cNum, cRoom, cStartHour, cStartMinute, cEndHour, cEndMinute);
-            db.collection('newCourses').add({
-                courseCode: document.getElementById("cCode").value,
-                courseNumber: document.getElementById("cNum").value,
-                courseType: document.getElementById("cType").value,
-                building: document.getElementById("cBuilding").value,
-                roomNumber: document.getElementById("cRoom").value,
-              
-                
-        })
+                addSchedule(cType, cBuilding, cCode, cNum, cRoom, cDate, cStartHour, cStartMinute, cEndHour, cEndMinute);
             })
               $("#clear").click(function(event) {
                   event.preventDefault();
                   document.getElementById("course-form").reset();
-            })
-              });
+            });
     </script>
     <script src="scripts/add-user.js"></script>
     <script src="scripts/add-schedule.js"></script>
     <script src="scripts/OldJSFunction.js"></script>
-      <script>
-          //adding user to database
-          createUser();
-          //adding scheudle to database
-        </script>
+    <script>
+        //adding user to database
+        createUser();
+        //adding scheudle to database
+    </script>
   </body>
 </html>

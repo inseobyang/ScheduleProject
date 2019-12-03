@@ -1,4 +1,4 @@
-function createUser() {
+  function createUser() {
 
     firebase.auth().onAuthStateChanged(function(user){
         db.collection("Users").doc(user.uid).set({

@@ -1,4 +1,3 @@
-//might be broken due to merge
 {
   "database": {
     "rules": "database.rules.json"
@@ -8,7 +7,6 @@
     "indexes": "firestore.indexes.json"
   },
   "hosting": {
-    "public": "mkdir hosting",
     "public": ".",
     "ignore": [
       "firebase.json",
