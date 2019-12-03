@@ -2,8 +2,9 @@
 <html>
   <head>
     <link href='https://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet'>
-    <title> CourseScheduler </title>
+    <title> Course Scheduler </title>
     <meta charset="utf-8"/>
+    <script src="scripts/formSchedule.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdn.alloyui.com/3.0.1/aui/aui-min.js"></script>
     <link href="https://cdn.alloyui.com/3.0.1/aui-css/css/bootstrap.min.css" rel="stylesheet"/>
@@ -11,8 +12,10 @@
     <script src="https://www.gstatic.com/firebasejs/7.2.2/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.2.2/firebase-firestore.js"></script>
     <script src="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.js"></script>
+    <link type="text/css" rel="stylesheet" href="./schedule.css" />
     <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css" />
     
+    <!-- Firebase script -->
     <script>
       var firebaseConfig = {
         apiKey: "AIzaSyD2QaXTqDNi9hBP5gMK9z_19YVKoBU9NeM",
@@ -26,429 +29,52 @@
       firebase.initializeApp(firebaseConfig);
       const db = firebase.firestore();
     </script>
-    
-    <style>
-      html, body {
-        margin: 0;
-        padding: 0;
-        font-family: "Oxygen";
-      }
-      
-      #course-form {
-        margin-left: 10px;
-      }
-      
-      #course-form input{
-        font-size: 12pt;
-        padding: 5px;
-      }
-      
-      .grid-container .nav {
-        grid-area: nav;
-        border-bottom: 1px solid darkblue;
-        display: inline-grid;
-        grid-template-columns: 1fr 4fr 1fr 1fr 1fr;
-        grid-template-areas: 
-          "logo search home profile options";
-        background-color: white;
-        color: #071350;
-        text-align: center;
-      }
-      #logo {
-        position: absolute;
-        left: 2%;
-        height: 50px;
-        top: 2%;
-      }
-      .logo { 
-        grid-area: logo;
-        display: inline-grid;
-      }
-      .search {
-        grid-area: search;
-      }
-      .home {
-        grid-area: home;
-      }
-      .profile {
-        grid-area: profile;
-      }
-      .options {
-        grid-area: options;
-      }
-      
-      .grid-container .header {
-        grid-area: header;
-        background-color: white;
-        color: black;
-        font-size: 18pt;
-        padding-left: 20px;
-        letter-spacing: 1px;
-        text-align: center;
-      }
-
-      .grid-container .footer {
-        grid-area: footer;
-        text-align: center;
-        background-color: white;
-        height: 100%;
-      }
-      .grid-container {
-        display:inline-grid;
-        vertical-align: middle;
-        margin-top: 30px;
-        height: 100vh;
-        border-left: 1px solid darkblue;
-        border-right: 1px solid darkblue;
-        width: 100%;
-        grid-template-columns: 1fr;
-        grid-template-rows: 8% 92%;
-        grid-template-areas:
-          "nav"
-          "footer"
-      }
-        #add {
-            height:30px;
-        }
-        #add img{
-            position: absolute;
-            right: 2%;
-            height: 50px;
-            top: 2%;
-        }
-        .schedule {
-                  height: 100%; 
-                  width: 0; 
-                  position: fixed; 
-                  z-index: 2; 
-                  top: 0; 
-                  left: 0;
-                  opacity: .9;
-                  background-color: #FFF;
-                  overflow-x: hidden; 
-                  overflow-y: hidden;
-                  transition: 0.5s; 
-                  text-align: center;
-                }
-                .schedule .closebtn {
-                  opacity: 1;
-                  position: absolute;
-                  top: 0px;
-                  right: 0px;
-                  font-size: 20px;
-                  color: black;
-                }
-                .schedule a{
-                    text-decoration: none;
-                }
-                input {
-                  width: 70%;
-                  opacity: 1;
-                  margin: 1px 1px;
-                  margin-top: 10px;
-                  border: 1px solid;
-                  font-size: 5pt;
-                  box-sizing:border-box;
-                }
-                img{
-                    opacity: 1;
-                    height: 25px;
-                    }
-
-                @media only screen and (min-width: 400px) {
-                  .sidenav {padding-top: 15px;
-                    }
-                  .sidenav a {font-size: 200px;
-                    }
-                    img{ height: 100px;
-                    }
-                    .schedule .closebtn{
-                        font-size: 150px;
-                        right: 2%;
-                    }
-                    input{
-                        margin-top: 20px;
-                        font-size: 50pt;
-                    }
-                    button{
-                    background-color: lightskyblue;
-                    font-size: 12pt;
-                    width: 5%;
-                    margin-right: 5%;
-                    margin-top: 5%;
-                    }
-                    input[type=date] {
-                    }
-                }
-    </style>
   </head>
   
   <body>
     <div class="grid-container">
       
       <div class="nav">
-        <div class="logo"><img id="logo" src="ScheduleLogo.svg"></div>
-        <div class="search" id="home-button"><p> | Your Class Schedule | </p></div>
-        <div class="home" id="profile-button"><p> | LECTURES | </p></div>
-        <div class="profile"><p> | Logout | </p></div>
-        <div id = "add"><img onclick="openNav()" id = "addSchdeuleImg" src = "addschedule.svg"></div>
+        <div class="logo"></div>
+        <div class="search" id="home-button"><p> Your BCIT Class Schedule </p></div>
+        <div class="home" id="profile-button"><p> Options </p></div>
+        <div class="profile"><p> Logout </p></div>
+        <div class="add"><img onclick="openNav()" id = "addSchdeuleImg" src = "addschedule.svg"></div>
       </div>
 
-      
       <div class="schedule2">
         <div class="footer" id="myFooter"></div>
         <div id="secondSchedule"></div>
       </div>
       
-        <div class="schedule" id="schedules">
-           <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+      <div class="schedule" id="schedules">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
         <ul id="myCourseList"></ul>
-          
         <form id="course-form">
-          <input type="text" id = "cCode" name="newCode" placeholder="Course code (eg. COMP)"><br>
-          <input type="text" id = "cNum" name="newNumber" placeholder="Course number..."><br>
-          <input type="text" id = "cType" name="newType" placeholder="Course type..."><br>
-          <input type="text" id = "cBuilding" name="newBuilding" placeholder="Course building..."><br>
-          <input type="text" id = "cRoom" name="newRoom" placeholder="Course room..."><br>
-          <input type="text" id = "cStartHour" name="newStart" placeholder="Start hour..."><br>
-          <input type="text" id = "cStartMinute" name="newStart" placeholder="Start minute..."><br>
-          <input type="text" id = "cEndHour" name="newEnd" placeholder="End hour eg.8"><br>
-          <input type="text" id = "cEndMinute" name="newEnd" placeholder="End minute eg.20"><br>
+          <input type="text" id = "cCode" name="newCode" placeholder="Course code (eg. COMP)..."><br>
+          <input type="text" id = "cNum" name="newNumber" placeholder="Course number (eg. 1930)..."><br>
+          <input type="text" id = "cType" name="newType" placeholder="Course type (LAB/LEC)..."><br>
+          <input type="text" id = "cBuilding" name="newBuilding" placeholder="Course building (eg. SW05)..."><br>
+          <input type="text" id = "cRoom" name="newRoom" placeholder="Course room (eg. 1850)..."><br>
+          <input type="text" id = "cStartHour" name="newStart" placeholder="Start hour in 24-hour clock (eg. '16' if 4:30 PM)..."><br>
+          <input type="text" id = "cStartMinute" name="newStart" placeholder="Start minute (eg. '30' if 4:30 PM)..."><br>
+          <input type="text" id = "cEndHour" name="newEnd" placeholder="End hour in 24-hour clock (eg. '17' if 5:30 PM)..."><br>
+          <input type="text" id = "cEndMinute" name="newEnd" placeholder="End minute (eg. '30' if 5:30 PM)..."><br>
           <input type="date" id = "cDate" name="cDate"><br>
-          <button id = "addCourse"> Add  </button>
+          <label for="cEndMinute">Add the date above (schedule is set to start on today's date)</label>
+          <button id = "addCourse" onclick= "window.location.reload();"> Add  </button>
           <button id = "clear">Clear</button>
         </form>
-        </div>
-      
-        <script>
-            function openNav() {
-              document.getElementById("schedules").style.width = "100%";
-                document.getElementById("addSchdeuleImg").style.display = "none";
-                document.body.style.position = "fixed";
-                document.getElementById("myFooter").style.display = "none";
-            }
-
-            function closeNav() {
-              document.getElementById("schedules").style.width = "0";
-                document.getElementById("addSchdeuleImg").style.display = "block";
-                document.body.style.position = "static";
-                document.getElementById("myFooter").style.display = "block";
-            }
-      </script>
-      
-      <script>
-      const form = document.querySelector('#course-form');
-      const courseList = document.querySelector('#myCourseList');
-      
-      //creates elements for display
-      function renderCourses(doc) {
-        let li = document.createElement('li');
-        let code = document.createElement('span');
-        let number = document.createElement('span');
-        let courseType = document.createElement('span');
-        let building = document.createElement('span');
-        let room = document.createElement('span');
-        let day = document.createElement('span');
-        let month = document.createElement('span');
-        let year = document.createElement('span');
-        let startHour = document.createElement('span');
-        let startMinute = document.createElement('span');
-        let endHour = document.createElement('span');
-        let endMinute = document.createElement('span');
-        let closeButton = document.createElement('span');
-        
-        //reads course data from database and assigns to created elements
-        li.setAttribute('data-id', doc.id);
-        code.textContent = doc.data().courseCode + " ";
-        number.textContent = doc.data().courseNumber + " ";
-        courseType.textContent = doc.data().courseType + " ";
-        building.textContent = doc.data().courseBuilding + " ";
-        room.textContent = doc.data().courseRoom + " ";
-        var date = (doc.data().courseDate).toDate();
-        day.textContent = date.getDate() + 1 + " ";
-        console.log(doc.data().courseDate);
-        month.textContent = date.getMonth() + 1 + " ";
-        year.textContent = date.getFullYear() + " ";
-        startHour.textContent = doc.data().courseStartHour;
-        startMinute.textContent = doc.data().courseStartMinute;
-        endHour.textContent = doc.data().courseEndHour;
-        endMinute.textContent = doc.data().courseEndMinute;
-        
-        closeButton.textContent = "[X]";
-        
-        //append each element to list element
-        li.appendChild(code);
-        li.appendChild(number);
-        li.appendChild(courseType);
-        li.appendChild(building);
-        li.appendChild(room);
-        li.appendChild(day);
-        li.appendChild(month);
-        li.appendChild(year);
-        li.appendChild(startHour);
-        li.appendChild(startMinute);
-        li.appendChild(endHour);
-        li.appendChild(endMinute);
-        li.appendChild(closeButton);
-        
-        //append list element to list
-        courseList.appendChild(li);
-        
-        //remove data
-        //grabs unique document id by going from closeButton -> li -> li attribute which is doc id
-        firebase.auth().onAuthStateChanged(function (user){
-          closeButton.addEventListener('click', (e) => {
-            e.stopPropagation;
-            let id = e.target.parentElement.getAttribute('data-id'); db.collection("Users").doc(user.uid).collection("Courses").doc(id).delete();
-          });
-        });
-            
-/*        //Selects LECTURES
-        profileButton.addEventListener('click', (e) => {
-          e.stopPropagation;
-          console.log("profile hit");
-          var listItems = $("#myCourseList li span");
-          for(let lis of listItems) {
-            //console.log(lis.innerHTML);
-            if (lis.innerHTML == "LEC ") {
-              //console.log(lis.parentElement);
-              $(lis.parentElement).css({color: "maroon", "font-weight": "bold"});
-            } else if (lis.innerHTML == "LAB ") {
-              $(lis.parentElement).css({color: "grey", "font-weight": "normal"});
-            }
-          }
-        });
-        
-        //Selects LABS
-        homeButton.addEventListener('click', (e) => {
-          e.stopPropagation;
-          var listItems = $("#myCourseList li span");
-          for(let lis of listItems) {
-            //console.log(lis.innerHTML);
-            if (lis.innerHTML == "LAB ") {
-              //console.log(lis.parentElement);
-              $(lis.parentElement).css({"color": "maroon", "font-weight": "bold"});
-            } else if (lis.innerHTML == "LEC ") {
-              $(lis.parentElement).css({"color": "grey", "font-weight": "normal"});
-            }
-          }
-        })*/
-      }
-
-    firebase.auth().onAuthStateChanged(function (user){       
-      db.collection("Users").doc(user.uid).collection("Courses").onSnapshot(snapshot => {
-        let changes = snapshot.docChanges(); //assign all changes to variable changes
-        changes.forEach(change => {
-          console.log(change.doc);
-          if(change.type == 'added') {
-            //renderCourses(change.doc);
-          } else if (change.type == 'removed') {
-            let li = courseList.querySelector('[data-id=' + change.doc.id + ']');
-            courseList.removeChild(li);
-          }
-        })
-      })
-    });
-
-      form.addEventListener('submit', (e) => {
-        e.preventDefault();
-        var nextDate = new Date($("#cDate").val());
-        db.collection("Users").doc(user.uid).collection("Courses").add({
-          courseCode: form.newCode.value,
-          courseNumber: form.newNumber.value,
-          courseType: form.newType.value,
-          building: form.newBuilding.value,
-          roomNumber: form.newRoom.value,
-          cDate: nextDate,
-          cStartHour: form.newStartHour.value,
-          cStartMinute: form.newStartMinute.value,
-          cEndHour: form.newEndHour.value,
-          cEndMinute: form.newEndMinute.value
-        });
-
-        console.log("scheduler thing added");
-        form.newCode.value = '';
-        form.newNumber.value = '';
-        form.newType.value = '';
-        form.newBuilding.value = '';
-        form.newRoom.value = '';
-      })
-    </script>
+      </div>
     
-    <script>
-      var oneClass = [];  
-      firebase.auth().onAuthStateChanged(function (user){
-        db.collection("Users").doc(user.uid).collection("Courses").onSnapshot(snapshot => {
-          let files = snapshot;
-          files.forEach(file => {
-            console.log(file.data().courseType);
-            var lastDate = (file.data().courseDate).toDate();
-            let newClass = 
-                {
-                  content: (file.data().courseCode) + (file.data().courseNumber),
-                  startDate: new Date(lastDate.getFullYear(), lastDate.getMonth(), lastDate.getDate() + 1, file.data().courseStartHour, file.data().courseStartMinute),
-                  endDate: new Date(lastDate.getFullYear(), lastDate.getMonth(), lastDate.getDate() + 1, file.data().courseEndHour, file.data().courseEndMinute)
-                }
-            console.log(newClass);
-            oneClass.push(newClass);
-          })
-          console.log(oneClass);
-          makeSchedule();
-        })
-      });
-    </script>
-    
-    <script>
-      function makeSchedule() {
-        YUI().use(
-          'aui-scheduler',
-          function(Y) {          
-            var events = oneClass;
-            var weekView = new Y.SchedulerWeekView();
-
-            var newScheduler = new Y.Scheduler(
-              {
-                boundingBox: '#myFooter',
-                date: new Date(2020, 00, 06, 8, 30),
-                //eventRecorder: eventRecorder,
-                items: events,
-                render: true,
-                views: [weekView]
-              }
-            );
-          }
-        )
-      };
-      console.log("schedule made!");
-    </script>
-    
-    <script>
-            $("#addCourse").click(function(event) {
-                event.preventDefault();
-                var cType = document.getElementById("cType").value;
-                var cCode = document.getElementById("cCode").value;
-                var cNum = document.getElementById("cNum").value;
-                var cBuilding = document.getElementById("cBuilding").value;
-                var cRoom = document.getElementById("cRoom").value;
-               var cDate = new Date(document.getElementById("cDate").value);
-                var cStartHour = document.getElementById("cStartHour").value;
-                var cStartMinute = document.getElementById("cStartMinute").value;
-                var cEndHour = document.getElementById("cEndHour").value;
-                var cEndMinute = document.getElementById("cEndMinute").value;
-                addSchedule(cType, cBuilding, cCode, cNum, cRoom, cDate, cStartHour, cStartMinute, cEndHour, cEndMinute);
-            })
-              $("#clear").click(function(event) {
-                  event.preventDefault();
-                  document.getElementById("course-form").reset();
-            });
-    </script>
+    <script src="scripts/generate-schedule.js"></script>
+    <script src="scripts/add-course.js"></script>
     <script src="scripts/add-user.js"></script>
     <script src="scripts/add-schedule.js"></script>
     <script src="scripts/OldJSFunction.js"></script>
     <script>
         //adding user to database
         createUser();
-        //adding scheudle to database
     </script>
   </body>
 </html>
