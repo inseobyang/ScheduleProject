@@ -4,16 +4,20 @@ html, body {
   font-family: "Oxygen";
 }
 
+.nav {
+ background-color: yellow;	
+}
+
 .grid-container {
   margin: 0;
   padding: 0;
+  
 }
 
 #course-form {
   margin-left: 10px;
 }
 .yui3-widget-hd {
-  font-weight: bold;
 }
 
 .btn-group {
@@ -39,12 +43,12 @@ button {
   vertical-align: middle;
   margin-top: 0px;
   grid-area: nav;
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid #b3b3b3;
   display: inline-grid;
-  grid-template-columns: 1fr 4fr 1fr 1fr 1fr;
+  grid-template-columns: 4fr 1fr 1fr 1fr 1fr;
   grid-template-rows: 1fr;
   grid-template-areas: 
-    "logo search home profile options";
+    "search logo home profile options";
   background-color: white;
   color: #071350;
   text-align: center;
@@ -61,12 +65,18 @@ button {
 }
 .search {
   grid-area: search;
+  font-size: 24pt;
+  margin-top: -4px;
 }
 .home {
   grid-area: home;
 }
 .profile {
   grid-area: profile;
+}
+
+.profile p:hover {
+  color: darkgrey;
 }
 
 
@@ -116,7 +126,7 @@ button {
 }
 
 .add img:hover {
-  box-shadow: 1px 1px 3px royalblue;
+  box-shadow: 1px 1px 3px darkgrey;
   
 }
 
@@ -212,6 +222,5 @@ button {
               }
               input[type=date] {
               }
-              #logout:hover{
-                  color: blue;
-              }
+
+        
