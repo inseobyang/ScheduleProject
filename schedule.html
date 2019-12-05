@@ -3,7 +3,7 @@
   <head>
     <link href='https://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet'>
     <title> Course Scheduler </title>
-    <meta charset="utf-8"/>
+    <meta charset="utf-8" content="width=device-width, initial-scale=1" name="viewport"/>
     <script src="scripts/formSchedule.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdn.alloyui.com/3.0.1/aui/aui-min.js"></script>
@@ -34,9 +34,9 @@
   <body>
     <div class="grid-container">
       
-      <div class="nav">
+      <div class="nav" id = "navBar">
         <div class="logo"></div>
-        <div class="search" id="home-button"><p> Your BCIT Class Schedule </p></div>
+        <div class="search" id="home-button"><p> mySchedule </p></div>
         <div class="home" id="profile-button"></div>
         <div class="profile" id = "logout" onclick = "logout()"><p> Logout </p></div>
         <div class="add"><img onclick="openNav()" id = "addSchdeuleImg" src = "addschedule.svg"></div>
