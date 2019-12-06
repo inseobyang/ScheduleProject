@@ -2,8 +2,8 @@
 <html>
   <head>
     <link href='https://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet'>
-    <title> Course Scheduler </title>
-    <meta charset="utf-8"/>
+    <title> mySchedule </title>
+    <meta charset="utf-8" content="width=device-width, initial-scale=1" name="viewport"/>
     <script src="scripts/formSchedule.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdn.alloyui.com/3.0.1/aui/aui-min.js"></script>
@@ -12,7 +12,7 @@
     <script src="https://www.gstatic.com/firebasejs/7.2.2/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.2.2/firebase-firestore.js"></script>
     <script src="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.js"></script>
-    <link type="text/css" rel="stylesheet" href="./schedule.css" />
+    <link type="text/css" rel="stylesheet" href="./css/schedule.css" />
     <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css" />
     
     <!-- Firebase script -->
@@ -33,20 +33,21 @@
   
   <body>
     <div class="grid-container">
-      
       <div class="nav">
         <div class="future-button-1"></div>
         <div class="intro-text" id="intro-text"><p> mySchedule </p></div>
         <div class="future-button-2" id="future-button-2"></div>
         <div class="logout" id = "logout" onclick = "logout()"><p> Logout </p></div>
-        <div class="add"><img onclick="openNav()" id = "addSchdeuleImg" src = "addschedule.svg"></div>
+
+        <div class="add"><img onclick="openNav()" id = "addScheduleImg" src = "./images/addschedule.svg"></div>
       </div>
 
       <div class="schedule2">
-        <div class="footer" id="myFooter"></div>
+        <div class="scheduleContainer" id="schedule-container"></div>
         <div id="secondSchedule"></div>
       </div>
       
+      <!-- Form for user input -->
       <div class="schedule" id="schedules">
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
         <ul id="myCourseList"></ul>
@@ -74,7 +75,7 @@
     <script src="scripts/OldJSFunction.js"></script>
     <script src="scripts/logout.js"></script>
     <script>
-        //adding user to database
+        //function used to create a new user; writes and stores user data in database.
         createUser();
     </script>
   </body>

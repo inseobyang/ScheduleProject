@@ -1,4 +1,6 @@
-
+//makeSchedule from the AlloyUI API uses an array 
+//of events and adds the events to a base 
+//schedule layout.
 function makeSchedule() {
   YUI().use(
     'aui-scheduler',
@@ -9,7 +11,7 @@ function makeSchedule() {
       });
 
       var newScheduler = new Y.Scheduler({
-          boundingBox: '#myFooter',
+          boundingBox: '#schedule-container',
           date: new Date(),
           items: events,
           render: true,
@@ -22,7 +24,9 @@ function makeSchedule() {
   )
 };
 
-
+//function below creates an object containing content, start date, and 
+//end date of a class. The object is pushed onto the oneClass array
+//which is used for the makeSchedule() method.
 var oneClass = [];  
 firebase.auth().onAuthStateChanged(function (user){
   db.collection("Users").doc(user.uid).collection("Courses").onSnapshot(snapshot => {

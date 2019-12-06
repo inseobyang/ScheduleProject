@@ -1,4 +1,6 @@
-
+//the function below retrieves the value of the filled-out
+//form upon submit, and calls addSchedule while also
+//passing the retrieved values as parameters.
 $("#addCourse").click(function(event) {
     var cType = document.getElementById("cType").value;
     var cCode = document.getElementById("cCode").value;
@@ -12,22 +14,24 @@ $("#addCourse").click(function(event) {
     var cEndMinute = document.getElementById("cEndMinute").value;
     addSchedule(cType, cBuilding, cCode, cNum, cRoom, cDate, cStartHour, cStartMinute, cEndHour, cEndMinute);
 })
-  $("#clear").click(function(event) {
+
+//the function below clears the fields of the form.
+$("#clear").click(function(event) {
       event.preventDefault();
       document.getElementById("course-form").reset();
 });
 
-
+//the function reveals the form
 function openNav() {
   document.getElementById("schedules").style.width = "100%";
-    document.getElementById("addSchdeuleImg").style.display = "none";
+    document.getElementById("addScheduleImg").style.display = "none";
     document.body.style.position = "fixed";
-    document.getElementById("myFooter").style.display = "none";
+    document.getElementById("schedule-container").style.display = "none";
 }
 
 function closeNav() {
   document.getElementById("schedules").style.width = "0";
-    document.getElementById("addSchdeuleImg").style.display = "block";
+    document.getElementById("addScheduleImg").style.display = "block";
     document.body.style.position = "static";
-    document.getElementById("myFooter").style.display = "block";
+    document.getElementById("schedule-container").style.display = "block";
 }
