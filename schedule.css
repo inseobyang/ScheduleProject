@@ -48,7 +48,7 @@ button {
   grid-template-columns: 4fr 1fr 1fr 1fr 1fr;
   grid-template-rows: 1fr;
   grid-template-areas: 
-    "search logo home profile options";
+    "header-text future-button-1 future-button-2 logout add-button";
   background-color: white;
   color: #071350;
   text-align: center;
@@ -59,23 +59,24 @@ button {
   height: 50px;
   top: 1%;
 }
-.logo { 
-  grid-area: logo;
+.future-button-1 { 
+  grid-area: future-button-1;
   display: inline-grid;
 }
-.search {
-  grid-area: search;
+.intro-text {
+  grid-area: header-text;
   font-size: 24pt;
+  margin-right: 150px;
   margin-top: -4px;
 }
-.home {
+.future-button-2 {
   grid-area: home;
 }
-.profile {
-  grid-area: profile;
+.logout {
+  grid-area: logout;
 }
 
-.profile p:hover {
+.logout p:hover {
   color: darkgrey;
 }
 
@@ -110,7 +111,7 @@ button {
 }
 .add {    
   height:30px;
-  grid-area: options;
+  grid-area: add-button;
 }
 .add img{
   border: 1px solid lightgrey;
